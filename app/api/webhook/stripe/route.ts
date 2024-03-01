@@ -19,7 +19,7 @@ export const POST = async (req: NextRequest) => {
           id: user?.id,
         },
         data: {
-          plan: "Your",
+          plan: "Premium",
         },
       });
 

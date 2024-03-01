@@ -3,27 +3,28 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider  = "mongodb"
+  url       = env("DIRECT_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Account {
-  id                String  @id @default(cuid()) @map("_id")
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
+  id                  String  @id @default(cuid()) @map("_id")
+  userId              String
+  type                String
+  provider            String
+  provider_account_id String
+  refresh_token       String?
+  access_token        String?
+  expires_at          Int?
+  token_type          String?
+  scope               String?
+  id_token            String?
+  session_state       String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
+  @@unique([provider, provider_account_id])
 }
 
 model Session {
@@ -31,6 +32,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -59,6 +61,8 @@ model User {
   Seance   Workout[]
   Streak   Streak[]
   Analytic Analytic[]
+  Serie    Serie[]
+  Exercise Exercise[]
 }
 
 enum UserPlan {
@@ -68,14 +72,15 @@ enum UserPlan {
 
 model Workout {
   id       String  @id @default(cuid()) @map("_id")
-  name     String?
-  userId   String
+  name     String  @default("no name")
   archived Boolean @default(false)
 
   series Serie[]
 
   lastRealised DateTime?
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Serie {
@@ -83,9 +88,13 @@ model Serie {
   break      Int        @default(60000)
   repetition Int        @default(1)
   exercises  Exercise[]
+  rank       Int?
 
   workoutId String?
   Workout   Workout? @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Exercise {
@@ -97,9 +106,13 @@ model Exercise {
   distance     Int?
   lastAchieved lastAchieved?
   bonus        bonus?
+  rank         Int?
 
   serieId String?
   Serie   Serie?  @relation(fields: [serieId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 type lastAchieved {

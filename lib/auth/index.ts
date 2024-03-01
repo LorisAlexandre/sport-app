@@ -1,1 +1,1 @@
-export { auth, handlers } from "./auth";
+export { auth, handlers, getUserId } from "./auth";
