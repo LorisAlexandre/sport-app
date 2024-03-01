@@ -6,19 +6,20 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
 model Account {
-  id                 String  @id @default(cuid()) @map("_id")
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.String
-  access_token       String?  @db.String
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.String
-  session_state      String?
+  id                String  @id @default(cuid()) @map("_id")
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -33,6 +34,15 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model VerificationToken {
+  id         String   @id @default(cuid()) @map("_id")
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
 model User {
   id            String    @id @default(cuid()) @map("_id")
   name          String?
@@ -41,21 +51,104 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+
+  // Payments
   stripeCustomerId String?
-  plan  UserPlan @default(Plans) 
+  plan             UserPlan @default(None)
+
+  Seance   Workout[]
+  Streak   Streak[]
+  Analytic Analytic[]
 }
 
 enum UserPlan {
-  Your
-  Different
-  Plans
+  Premium
+  None
 }
 
-model VerificationToken {
-  id         String    @id @default(cuid()) @map("_id")
-  identifier String
-  token      String   @unique
-  expires    DateTime
+model Workout {
+  id       String  @id @default(cuid()) @map("_id")
+  name     String?
+  userId   String
+  archived Boolean @default(false)
 
-  @@unique([identifier, token])
+  series Serie[]
+
+  lastRealised DateTime?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Serie {
+  id         String     @id @default(cuid()) @map("_id")
+  break      Int        @default(60000)
+  repetition Int        @default(1)
+  exercises  Exercise[]
+
+  workoutId String?
+  Workout   Workout? @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+}
+
+model Exercise {
+  id           String        @id @default(cuid()) @map("_id")
+  name         String        @default("No name")
+  repetition   Int?
+  workoutTime  Int?
+  break        Int           @default(30000)
+  distance     Int?
+  lastAchieved lastAchieved?
+  bonus        bonus?
+
+  serieId String?
+  Serie   Serie?  @relation(fields: [serieId], references: [id], onDelete: Cascade)
+}
+
+type lastAchieved {
+  exerciseProp String?
+  achieved     Int?
+}
+
+type bonus {
+  toAchieved   Int?
+  exerciseProp String?
+}
+
+model Streak {
+  id             String  @id @default(cuid()) @map("_id")
+  currentStreak  Int     @default(0)
+  longuestStreak Int     @default(0)
+  todayCount     Boolean @default(false)
+
+  lastDateCount DateTime?
+  nextDateCount DateTime?
+
+  weekSchema Int[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Analytic {
+  id String @id @default(cuid()) @map("_id")
+
+  workout Workouts[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+type Workouts {
+  photo photo?
+  notes String?
+
+  name     String?
+  userId   String
+  archived Boolean  @default(false)
+  series   String[]
+
+  date DateTime?
+}
+
+type photo {
+  url      String?
+  publicId String?
 }
