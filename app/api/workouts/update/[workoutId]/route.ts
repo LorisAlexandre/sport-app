@@ -10,43 +10,6 @@ export const PATCH = async (
   const userId = await getUserId();
   const body: Workout = await req.json();
 
-  // const body = {
-  //   seance: {
-  //     archived: false,
-  //     lastRealised: null,
-  //     name: "First seance",
-  //     userId: "clt8ot46u0000biowqqay32q3",
-  //   },
-  //   serie: {
-  //     break: 60000,
-  //     rank: 1,
-  //     repetition: 1,
-  //     id: "clt91jcyg0002r67esexq6lbe",
-  //   },
-  //   exercises: [
-  //     {
-  //       bonus: null,
-  //       break: 30000,
-  //       distance: null,
-  //       lastAchieved: null,
-  //       name: "Second exo",
-  //       rank: 2,
-  //       repetition: null,
-  //       workoutTime: null,
-  //     },
-  //     {
-  //       bonus: null,
-  //       break: 30000,
-  //       distance: null,
-  //       lastAchieved: null,
-  //       name: "Third exo",
-  //       rank: 3,
-  //       repetition: null,
-  //       workoutTime: null,
-  //     },
-  //   ],
-  // };
-
   if (!userId) {
     return NextResponse.json(
       { result: false, redirectTo: "/auth/login" },
@@ -63,14 +26,13 @@ export const PATCH = async (
     );
   }
 
-  const workout = await prisma.workout.findUnique({
-    where: {
-      id: workoutId,
-    },
-  });
+  const { result } = await verifUserId(userId, workoutId, "workout");
 
-  if (userId !== workout?.userId) {
-    return NextResponse.json({ result: false }, { status: 401 });
+  if (!result) {
+    return NextResponse.json(
+      { result, message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   const updatedWorkout = await prisma.workout.update({

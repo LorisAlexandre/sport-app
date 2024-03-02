@@ -16,11 +16,11 @@ export const PATCH = async (
     );
   }
 
-  const isVerified = await verifUserId(userId, serieId, "serie");
+  const { result } = await verifUserId(userId, serieId, "serie");
 
-  if (!isVerified) {
+  if (!result) {
     return NextResponse.json(
-      { result: false, message: "Unauthorized" },
+      { result, message: "Unauthorized" },
       { status: 401 }
     );
   }

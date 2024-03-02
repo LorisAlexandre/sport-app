@@ -1,5 +1,5 @@
 import { getUserId } from "@/lib/auth";
-import { prisma, verifUserId } from "@/lib/db";
+import { Exercise, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -15,27 +15,20 @@ export const GET = async (
     );
   }
 
-  const isVerified = await verifUserId(userId, exerciseId, "exercise");
+  const { result, doc } = await verifUserId<Exercise>(
+    userId,
+    exerciseId,
+    "exercise"
+  );
 
-  if (!isVerified) {
+  if (!result) {
     return NextResponse.json(
-      { result: false, message: "Unauthorized" },
+      { result, message: "Unauthorized" },
       { status: 401 }
     );
   }
 
-  const exercise = await prisma.exercise.findUnique({
-    where: {
-      id: exerciseId,
-    },
-    include: {
-      Serie: {
-        include: {
-          Workout: true,
-        },
-      },
-    },
-  });
+  // No need to include relations
 
-  return NextResponse.json({ result: true, data: exercise });
+  return NextResponse.json({ result: true, data: doc });
 };
