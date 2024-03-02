@@ -24,7 +24,7 @@ export const DELETE = async (
     );
   }
 
-  const serie = prisma.exercise.delete({
+  const serie = await prisma.exercise.delete({
     where: {
       id: exerciseId,
     },

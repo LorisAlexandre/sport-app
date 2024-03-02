@@ -16,30 +16,23 @@ export const PATCH = async (
     );
   }
 
-  const { result } = await verifUserId(userId, exerciseId, "exercise");
+  // const { result } = await verifUserId(userId, exerciseId, "exercise");
 
-  if (!result) {
-    return NextResponse.json(
-      { result, message: "Unauthorized" },
-      { status: 401 }
-    );
-  }
+  // if (!result) {
+  //   return NextResponse.json(
+  //     { result, message: "Unauthorized" },
+  //     { status: 401 }
+  //   );
+  // }
 
-  const serie = prisma.exercise.update({
+  const exercise = await prisma.exercise.update({
     where: {
       id: exerciseId,
     },
     data: {
       ...body,
     },
-    include: {
-      Serie: {
-        include: {
-          Workout: true,
-        },
-      },
-    },
   });
 
-  return NextResponse.json({ result: true, data: serie });
+  return NextResponse.json({ result: true, data: exercise });
 };

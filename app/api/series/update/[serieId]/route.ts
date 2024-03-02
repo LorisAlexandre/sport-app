@@ -25,7 +25,7 @@ export const PATCH = async (
     );
   }
 
-  const serie = prisma.serie.update({
+  const serie = await prisma.serie.update({
     where: {
       id: serieId,
     },

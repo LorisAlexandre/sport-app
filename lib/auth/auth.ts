@@ -4,11 +4,8 @@ import Google from "next-auth/providers/google";
 // import Email from "next-auth/providers/nodemailer";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
-
+import { prisma } from "@/lib/db";
 import { stripe } from "../stripe";
-
-const prisma = new PrismaClient();
 
 export const { handlers, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),

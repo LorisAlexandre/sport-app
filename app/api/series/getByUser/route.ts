@@ -12,7 +12,7 @@ export const GET = async (_req: NextRequest) => {
     );
   }
 
-  const series = prisma.serie.findMany({
+  const series = await prisma.serie.findMany({
     where: {
       userId,
     },

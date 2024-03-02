@@ -24,7 +24,7 @@ export const GET = async (
     );
   }
 
-  const series = prisma.serie.findMany({
+  const series = await prisma.serie.findMany({
     where: {
       workoutId,
       userId,

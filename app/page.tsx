@@ -6,13 +6,17 @@ export default function Home() {
   const { data: session } = useSession();
 
   const handleClick = async () => {
-    const res = await fetch(
-      "/api/exercises/getById/clt9wp16t000a14olhvwqhkj1",
-      {
-        method: "GET",
-        // body: JSON.stringify({}),
-      }
-    );
+    const res = await fetch("/api/exercises/update/clt9wu0n1000g14oldfi1o1eu", {
+      method: "PATCH",
+      body: JSON.stringify({
+        name: "big boii",
+      }),
+    });
+    if (!res.ok) {
+      console.log(res);
+
+      return;
+    }
     const data = await res.json();
 
     console.log(data);

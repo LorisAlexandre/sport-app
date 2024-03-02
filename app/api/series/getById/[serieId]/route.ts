@@ -24,7 +24,7 @@ export const GET = async (
     );
   }
 
-  const serie = prisma.serie.findUnique({
+  const serie = await prisma.serie.findUnique({
     where: {
       id: serieId,
     },

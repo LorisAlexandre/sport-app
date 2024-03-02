@@ -25,7 +25,7 @@ export const POST = async (
     );
   }
 
-  const serie = prisma.exercise.create({
+  const serie = await prisma.exercise.create({
     data: {
       ...body,
       userId,
