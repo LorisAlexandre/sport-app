@@ -1,13 +1,13 @@
 import { getUserId } from "@/lib/auth";
-import { Serie, prisma, verifUserId } from "@/lib/db";
+import { Exercise, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (
   req: NextRequest,
-  { params: { workoutId } }: { params: { workoutId: string } }
+  { params: { serieId } }: { params: { serieId: string } }
 ) => {
   const userId = await getUserId();
-  const body: Serie = await req.json();
+  const body: Exercise = await req.json();
 
   if (!userId) {
     return NextResponse.json(
@@ -16,7 +16,7 @@ export const POST = async (
     );
   }
 
-  const isVerified = await verifUserId(userId, workoutId, "workout");
+  const isVerified = await verifUserId(userId, serieId, "serie");
 
   if (!isVerified) {
     return NextResponse.json(
@@ -25,15 +25,18 @@ export const POST = async (
     );
   }
 
-  const serie = prisma.serie.create({
+  const serie = prisma.exercise.create({
     data: {
       ...body,
       userId,
-      workoutId,
+      serieId,
     },
     include: {
-      exercises: true,
-      Workout: true,
+      Serie: {
+        include: {
+          Workout: true,
+        },
+      },
     },
   });
 

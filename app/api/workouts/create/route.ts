@@ -1,9 +1,10 @@
 import { getUserId } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { Workout, prisma } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async () => {
+export const POST = async (req: NextRequest) => {
   const userId = await getUserId();
+  const body: Workout = await req.json();
 
   if (!userId) {
     return NextResponse.json(
@@ -14,6 +15,7 @@ export const POST = async () => {
 
   const workout = await prisma.workout.create({
     data: {
+      ...body,
       userId,
       series: {
         create: {
