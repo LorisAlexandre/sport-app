@@ -24,11 +24,11 @@ export const DELETE = async (
     );
   }
 
-  const serie = await prisma.exercise.delete({
+  await prisma.exercise.delete({
     where: {
       id: exerciseId,
     },
   });
 
-  return NextResponse.json({ result: true, data: serie });
+  return NextResponse.json({ result: true });
 };
