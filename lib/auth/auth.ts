@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 
 import Google from "next-auth/providers/google";
-// import Email from "next-auth/providers/nodemailer";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
@@ -9,20 +8,7 @@ import { stripe } from "../stripe";
 
 export const { handlers, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  providers: [
-    Google,
-    // Email({
-    //   server: {
-    //     host: process.env.SMTP_HOST,
-    //     port: process.env.SMTP_PORT,
-    //     auth: {
-    //       user: process.env.SMTP_USER,
-    //       pass: process.env.SMTP_PASSWORD,
-    //     },
-    //   },
-    //   from: process.env.SMTP_FROM,
-    // }),
-  ],
+  providers: [Google],
   events: {
     async createUser(message) {
       const { id: userId, email, name } = message.user;
