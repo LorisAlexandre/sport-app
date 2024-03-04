@@ -58,7 +58,10 @@ model User {
   stripeCustomerId String?
   plan             UserPlan @default(None)
 
-  Seance   Workout[]
+  // Lien d'affiliation
+  AffiliateLink String?
+
+  Workout  Workout[]
   Streak   Streak[]
   Analytic Analytic[]
   Serie    Serie[]
@@ -66,8 +69,10 @@ model User {
 }
 
 enum UserPlan {
-  Premium
   None
+  Guest
+  Premium
+  Coach
 }
 
 model Workout {
@@ -79,8 +84,11 @@ model Workout {
 
   lastRealised DateTime?
 
+  // Utilisateurs associés au Workout
+  users String[]
+
   userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Serie {

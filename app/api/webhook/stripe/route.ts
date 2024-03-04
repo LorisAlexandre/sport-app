@@ -1,4 +1,5 @@
-import { prisma } from "@/lib/db";
+import { findUserFromCustomer, prisma } from "@/lib/db";
+import { User } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -10,8 +11,17 @@ export const POST = async (req: NextRequest) => {
       const session = body.data.object as Stripe.Checkout.Session;
       const stripeCustomerId = session.customer as string;
       const user = await findUserFromCustomer(stripeCustomerId);
+
       if (!user) {
         break;
+      }
+
+      console.log(session.line_items);
+
+      let plan: User["plan"] = "Premium";
+
+      if (session.line_items?.data[0].id === process.env.COACH_STRIPE_ID) {
+        plan = "Coach";
       }
 
       await prisma.user.update({
@@ -19,7 +29,7 @@ export const POST = async (req: NextRequest) => {
           id: user?.id,
         },
         data: {
-          plan: "Premium",
+          plan,
         },
       });
 
@@ -34,15 +44,4 @@ export const POST = async (req: NextRequest) => {
   return NextResponse.json({
     result: true,
   });
-};
-
-export const findUserFromCustomer = async (stripeCustomerId: string) => {
-  if (!stripeCustomerId) return null;
-
-  const user = await prisma.user.findFirst({
-    where: {
-      stripeCustomerId,
-    },
-  });
-  return user;
 };

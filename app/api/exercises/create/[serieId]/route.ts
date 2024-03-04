@@ -1,5 +1,5 @@
 import { getUserId } from "@/lib/auth";
-import { Exercise, prisma, verifUserId } from "@/lib/db";
+import { Exercise, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (
@@ -12,6 +12,18 @@ export const POST = async (
   if (!userId) {
     return NextResponse.json(
       { result: false, redirectTo: "/auth/login" },
+      { status: 401 }
+    );
+  }
+
+  const { result: isPaying } = await isAbleToCUD(userId);
+
+  if (!isPaying) {
+    return NextResponse.json(
+      {
+        result: false,
+        redirectTo: "/pricing",
+      },
       { status: 401 }
     );
   }
