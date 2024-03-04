@@ -3,7 +3,7 @@ import { BuyButton, LoginButton } from "./ui";
 import { findUserByAuthSession } from "@/lib/db";
 
 const Header = async () => {
-  const session = await auth();
+  // const session = await auth();
   const user = await findUserByAuthSession();
 
   return (
@@ -11,7 +11,7 @@ const Header = async () => {
       <h1>Header</h1>
       <BuyButton customerId={user?.stripeCustomerId ?? ""} />
       <LoginButton />
-      {session && <p>{session.user?.email}</p>}
+      {/* {session && <p>{session.user?.email}</p>} */}
     </div>
   );
 };
