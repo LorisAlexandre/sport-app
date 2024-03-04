@@ -1,13 +1,23 @@
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from ".";
 import { stripe } from "@/lib/stripe";
+import { useSession } from "next-auth/react";
 
-export const BuyButton = ({ customerId }: { customerId: string }) => {
+export const BuyButton = () => {
   const router = useRouter();
 
   const handleCheckoutSession = async () => {
+    const res = await fetch("/api/user/getByAuth");
+    const { result, user } = await res.json();
+
+    if (!result || !user) {
+      return;
+    }
+
+    const customerId = user?.stripeCustomerId;
+
     if (!customerId) {
       throw new Error("No customer Id");
     }
