@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <div>
-      <pre>{JSON.stringify(user?.plan)}</pre>
+      <pre>{JSON.stringify(user)}</pre>
       <AuthCard />
     </div>
   );
