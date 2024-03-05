@@ -35,8 +35,12 @@ export const TopNavbar = () => {
       setMessage(message ?? res.statusText);
       redirectTo && handleRedirect(redirectTo);
     }
-
-    // console.log(data);
+    if (data?.id) {
+      router.push(`/workout/modify/${data.id}`);
+    } else {
+      setStatusCode(500);
+      setMessage("An error occured, try again later");
+    }
   };
 
   if (!urls.includes(url)) {

@@ -6,6 +6,20 @@ export type { Exercise, Serie, Workout } from "@prisma/client";
 
 export type PrismaModels = "workout" | "serie" | "exercise";
 
+const prismaClientSingleton = () => {
+  return new PrismaClient();
+};
+
+declare global {
+  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
+}
+
+const prisma = globalThis.prisma ?? prismaClientSingleton();
+
+export { prisma };
+
+if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
+
 export const verifUserId = async <T extends Exercise | Serie | Workout>(
   userId: string,
   id: string,
@@ -48,29 +62,3 @@ export const findUserFromCustomer = async (stripeCustomerId: string) => {
   });
   return user;
 };
-
-export const findUserByAuthSession = async () => {
-  const session = await auth();
-
-  const user = prisma?.user.findUnique({
-    where: {
-      id: session?.user?.id,
-    },
-  });
-
-  return user;
-};
-
-const prismaClientSingleton = () => {
-  return new PrismaClient();
-};
-
-declare global {
-  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
-}
-
-const prisma = globalThis.prisma ?? prismaClientSingleton();
-
-export { prisma };
-
-if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;

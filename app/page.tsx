@@ -1,11 +1,20 @@
+import AuthCard from "@/components/AuthCard";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+
 export default async function Home() {
+  const session = await auth();
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session?.user.id,
+    },
+  });
+
   return (
     <div>
-      <div className="min-h-screen bg-red-500">Homepage</div>
-      <div className="min-h-screen bg-red-200">Avis</div>
-      <div className="min-h-screen bg-red-500" id="pricing">
-        Pricing
-      </div>
+      <pre>{JSON.stringify(user?.plan)}</pre>
+      <AuthCard />
     </div>
   );
 }

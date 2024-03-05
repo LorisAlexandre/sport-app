@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Navbar, TopNavbar } from "@/components/ui";
 import { ErrorProvider } from "@/providers/ErrorProvider";
+import Link from "next/link";
 
 const fontTitle = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
 const fontBody = Work_Sans({ subsets: ["latin"], variable: "--font-work" });
@@ -35,6 +36,7 @@ export default async function RootLayout({
         >
           <ErrorProvider>
             <TopNavbar />
+            <Link href={"/workout"}>Go Workout</Link>
             {children}
             <Navbar />
           </ErrorProvider>

@@ -50,6 +50,10 @@ export const { handlers, auth } = NextAuth({
   },
 });
 
+export const middleware = auth((req) => {
+  console.log(req.auth);
+});
+
 export const getUserId = async (): Promise<string | null> => {
   const session = await auth();
 
