@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { BuyButton, LoginButton } from "./ui";
+import { BuyButton } from "./ui";
 
 const Header = async () => {
   const session = await auth();
@@ -9,7 +9,6 @@ const Header = async () => {
       <h1>Header</h1>
       {session?.user && <p>{session.user.email}</p>}
       <BuyButton />
-      <LoginButton />
     </div>
   );
 };
