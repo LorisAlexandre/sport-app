@@ -5,15 +5,22 @@ import { prisma } from "@/lib/db";
 export default async function Home() {
   const session = await auth();
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: session?.user.id,
-    },
-  });
-
+  if (session?.user) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session?.user.id,
+      },
+    });
+    return (
+      <div>
+        <pre>{JSON.stringify(user)}</pre>
+        <AuthCard />
+      </div>
+    );
+  }
   return (
     <div>
-      <pre>{JSON.stringify(user)}</pre>
+      <pre>{JSON.stringify("Hi please login")}</pre>
       <AuthCard />
     </div>
   );
