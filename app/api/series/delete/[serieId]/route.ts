@@ -15,18 +15,6 @@ export const DELETE = async (
     );
   }
 
-  const { result: isPaying } = await isAbleToCUD(userId);
-
-  if (!isPaying) {
-    return NextResponse.json(
-      {
-        result: false,
-        redirectTo: "/pricing",
-      },
-      { status: 401 }
-    );
-  }
-
   const { result } = await verifUserId(userId, serieId, "serie");
 
   if (!result) {

@@ -21,6 +21,7 @@ const config = {
     extend: {
       fontFamily: {
         oswald: ["var(--font-oswald)", ...fontFamily.sans],
+        work: ["var(--font-work)", ...fontFamily.mono],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -71,10 +72,20 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "show-from-top": {
+          from: { top: "-100%" },
+          to: { top: "10" },
+        },
+        "unshow-from-top": {
+          from: { top: "10" },
+          to: { top: "-100%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "show-from-top": "show-from-top 1s ease-out",
+        "unshow-from-top": "unshow-from-top 1s ease-in",
       },
     },
   },

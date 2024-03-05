@@ -74,3 +74,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+* {
+  font-family: var(--font-work);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-oswald);
+}

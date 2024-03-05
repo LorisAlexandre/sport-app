@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const AuthCard = () => {
   return (
@@ -21,7 +21,7 @@ const AuthCard = () => {
       <CardContent className="flex justify-center">
         <Button
           className="flex gap-4"
-          onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+          onClick={() => signIn("google", { callbackUrl: "/workout" })}
         >
           <Image
             className="h-fit"

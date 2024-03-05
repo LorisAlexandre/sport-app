@@ -8,7 +8,11 @@ export const POST = async (req: NextRequest) => {
 
   if (!userId) {
     return NextResponse.json(
-      { result: false, redirectTo: "/auth/login" },
+      {
+        result: false,
+        redirectTo: "/auth/login",
+        message: "Your session has expired",
+      },
       { status: 401 }
     );
   }
@@ -19,7 +23,8 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(
       {
         result: false,
-        redirectTo: "/pricing",
+        redirectTo: "http://localhost:3000#pricing",
+        message: "Your plan doesn't allow you to do that",
       },
       { status: 401 }
     );

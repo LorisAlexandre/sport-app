@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { Account, Profile, User as UserFromAuth } from "next-auth";
 
 import Google from "next-auth/providers/google";
 
@@ -28,6 +28,24 @@ export const { handlers, auth } = NextAuth({
           stripeCustomerId: stripeCustomer.id,
         },
       });
+    },
+    async signIn(session) {
+      const currUser = session.user;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.user.id,
+        },
+      });
+
+      if (!user) {
+        return;
+      }
+
+      session.user = {
+        ...currUser,
+        ...user,
+      };
     },
   },
 });

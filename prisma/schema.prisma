@@ -112,6 +112,7 @@ model Exercise {
   workoutTime  Int?
   break        Int           @default(30000)
   distance     Int?
+  weight       Int?
   lastAchieved lastAchieved?
   bonus        bonus?
   rank         Int?

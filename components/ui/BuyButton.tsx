@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { Button } from ".";
 import { stripe } from "@/lib/stripe";
-import { useSession } from "next-auth/react";
 
 export const BuyButton = () => {
   const router = useRouter();
@@ -26,8 +25,8 @@ export const BuyButton = () => {
       customer: customerId,
       mode: "payment",
       payment_method_types: ["card"],
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
+      success_url: "https://sport-app-zeta.vercel.app/success",
+      cancel_url: "https://sport-app-zeta.vercel.app/",
       line_items: [
         {
           price: "price_1Op8kuBvdD53Amib1yD8qXBB",

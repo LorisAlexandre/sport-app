@@ -15,14 +15,14 @@ export const PATCH = async (
       { status: 401 }
     );
   }
-
   const { result: isPaying } = await isAbleToCUD(userId);
 
   if (!isPaying) {
     return NextResponse.json(
       {
         result: false,
-        redirectTo: "/pricing",
+        redirectTo: "http://localhost:3000#pricing",
+        message: "Your plan doesn't allow you to do that",
       },
       { status: 401 }
     );

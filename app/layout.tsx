@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Oswald } from "next/font/google";
+import { Oswald, Work_Sans } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { Navbar, TopNavbar } from "@/components/ui";
+import { ErrorProvider } from "@/providers/ErrorProvider";
 
-const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
+const fontTitle = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
+const fontBody = Work_Sans({ subsets: ["latin"], variable: "--font-work" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,11 +27,17 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <body
           className={cn(
-            "font-oswald min-h-screen antialiased",
-            oswald.variable
+            "font-oswald min-h-screen antialiased flex flex-col gap-8 pt-10 px-5 overflow-x-hidden pb-32",
+            fontTitle.variable,
+            "font-work",
+            fontBody.variable
           )}
         >
-          {children}
+          <ErrorProvider>
+            <TopNavbar />
+            {children}
+            <Navbar />
+          </ErrorProvider>
         </body>
       </SessionProvider>
     </html>
