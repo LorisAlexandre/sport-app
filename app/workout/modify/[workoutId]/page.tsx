@@ -29,9 +29,5 @@ export default async function Page({
     return <pre>{JSON.stringify(res)}</pre>;
   }
 
-  return (
-    <div>
-      <ModifWorkout res={res} />
-    </div>
-  );
+  return <div>{/* <ModifWorkout res={res} /> */}</div>;
 }
