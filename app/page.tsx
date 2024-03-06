@@ -50,7 +50,6 @@ export default async function Home() {
         />
       );
     }
-
     console.log(data);
   } catch (error) {
     return (
