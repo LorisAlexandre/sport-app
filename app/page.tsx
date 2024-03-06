@@ -65,7 +65,7 @@ export default async function Home() {
   return (
     <div>
       <p>
-        Salut bienvenue sur sport app l'app de gestion pour les coachs de sport
+        Salut bienvenue sur sport app lapp de gestion pour les coachs de sport
       </p>
     </div>
   );
