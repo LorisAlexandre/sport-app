@@ -1,12 +1,16 @@
+"use client";
+
 import { useErrorProvider } from "@/providers/ErrorProvider";
 import { Button } from ".";
 
 export const ToastError = ({
   message,
   statusCode,
+  redirectTo,
 }: {
   message: string;
   statusCode: number;
+  redirectTo?: string;
 }) => {
   const { eraseError, isClosing } = useErrorProvider();
 
@@ -16,7 +20,13 @@ export const ToastError = ({
         isClosing ? "animate-unshow-from-top" : "animate-show-from-top"
       }`}
     >
-      <Button onClick={eraseError} variant={"ghost"} className="fill-red-500">
+      <Button
+        onClick={() => {
+          eraseError(redirectTo);
+        }}
+        variant={"ghost"}
+        className="fill-red-500"
+      >
         <svg
           width="22"
           height="22"

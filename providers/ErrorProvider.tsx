@@ -29,16 +29,18 @@ export const useErrorProvider = () => {
   const { setMessage, setStatusCode, message, statusCode } =
     useContext(ErrorContext);
   const [isClosing, setIsClosing] = useState(false);
+  const [redirectTo, setRedirectTo] = useState("");
 
   if (!setMessage || !setStatusCode) {
     throw new Error("setMessage || setStatusCode is undefined");
   }
 
-  const eraseError = () => {
+  const eraseError = (redirectTo?: string) => {
     setIsClosing(true);
     setTimeout(() => {
       setMessage(undefined);
       setStatusCode(undefined);
+      redirectTo && router.push(redirectTo);
     }, 1000);
   };
 

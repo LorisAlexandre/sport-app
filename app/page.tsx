@@ -1,27 +1,72 @@
-import AuthCard from "@/components/AuthCard";
+import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { CustomResponse } from "@/lib/types/apiRes";
 
 export default async function Home() {
+  // const session = await auth();
+
+  // if (!session?.user) {
+  //   return (
+  //     <ToastError
+  //       message="You are not logged in"
+  //       statusCode={401}
+  //       redirectTo="/auth/login"
+  //     />
+  //   );
+  // }
+
+  // if (session.user.plan === "None" || session.user.plan === "Guest") {
+  //   return (
+  //     <ToastError
+  //       message="Your plan doesn't allow this, you can still upgrade !"
+  //       statusCode={401}
+  //       redirectTo="/pricing"
+  //     />
+  //   );
+  // }
+
   const session = await auth();
 
-  if (session?.user) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: session?.user.id,
-      },
-    });
+  const res = await fetch(
+    `${process.env.SERV_URL}/api/workouts/getById/clte86duy000pxovc1ka374gr`,
+    {
+      headers: {
+        userId: session?.user.id,
+      } as RequestInit["headers"],
+      cache: "no-cache",
+    }
+  );
+
+  try {
+    const { result, data, message, redirectTo } =
+      (await res.json()) as CustomResponse<any>;
+
+    if (!result) {
+      return (
+        <ToastError
+          message={message ?? res.statusText}
+          statusCode={res.status}
+          redirectTo={redirectTo}
+        />
+      );
+    }
+
+    console.log(data);
+  } catch (error) {
     return (
-      <div>
-        <pre>{JSON.stringify(user)}</pre>
-        <AuthCard />
-      </div>
+      <ToastError
+        message={`Error with the server. ${String(error)}`}
+        statusCode={res.status}
+        redirectTo="/"
+      />
     );
   }
+
   return (
     <div>
-      <pre>{JSON.stringify("Hi please login")}</pre>
-      <AuthCard />
+      <p>
+        Salut bienvenue sur sport app l'app de gestion pour les coachs de sport
+      </p>
     </div>
   );
 }

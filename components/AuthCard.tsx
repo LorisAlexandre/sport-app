@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 const AuthCard = () => {
   return (

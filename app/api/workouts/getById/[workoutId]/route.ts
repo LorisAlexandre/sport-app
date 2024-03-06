@@ -1,4 +1,4 @@
-import { prisma, verifUserId } from "@/lib/db";
+import { isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -23,9 +23,22 @@ export const GET = async (
     );
   }
 
+  // const { result: isPaying } = await isAbleToCUD(userId);
+
+  // if (!isPaying) {
+  //   return NextResponse.json(
+  //     {
+  //       result: false,
+  //       redirectTo: "http://localhost:3000#pricing",
+  //       message: "Your plan doesn't allow you to do that",
+  //     },
+  //     { status: 401 }
+  //   );
+  // }
+
   let workout = await prisma.workout.findUnique({
     where: {
-      id: workoutId,
+      id: undefined,
     },
     include: {
       series: {

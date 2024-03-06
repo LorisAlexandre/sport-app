@@ -1,4 +1,4 @@
-import ModifWorkout from "@/components/ModifWorkout";
+// import ModifWorkout from "@/components/ModifWorkout";
 import { Button } from "@/components/ui";
 import { getUserId } from "@/lib/auth";
 import { redirect } from "next/navigation";
