@@ -27,15 +27,12 @@ export default async function Home() {
 
   const session = await auth();
 
-  const res = await fetch(
-    `${process.env.SERV_URL}/api/workouts/getById/clte86duy000pxovc1ka374gr`,
-    {
-      headers: {
-        userId: session?.user.id,
-      } as RequestInit["headers"],
-      cache: "no-cache",
-    }
-  );
+  const res = await fetch(`${process.env.SERV_URL}/api/workouts/getByUser`, {
+    headers: {
+      userId: session?.user.id,
+    } as RequestInit["headers"],
+    cache: "no-cache",
+  });
 
   try {
     const { result, data, message, redirectTo } =
@@ -50,7 +47,7 @@ export default async function Home() {
         />
       );
     }
-    console.log(data);
+    // console.log(data);
   } catch (error) {
     return (
       <ToastError

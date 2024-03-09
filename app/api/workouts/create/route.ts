@@ -3,7 +3,7 @@ import { Workout, isAbleToCUD, prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
-  const userId = await getUserId();
+  const userId = req.headers.get("userId");
   const body: Workout = await req.json();
 
   if (!userId) {

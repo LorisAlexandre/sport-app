@@ -47,6 +47,17 @@ export const { handlers, auth } = NextAuth({
         ...user,
       };
     },
+    async signOut(message: any) {
+      const userId = message.session.userId;
+
+      if (!userId) return;
+
+      await prisma.session.deleteMany({
+        where: {
+          userId,
+        },
+      });
+    },
   },
 });
 

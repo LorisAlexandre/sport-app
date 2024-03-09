@@ -14,6 +14,19 @@ export const GET = async (
     );
   }
 
+  const { result: isPaying } = await isAbleToCUD(userId);
+
+  if (!isPaying) {
+    return NextResponse.json(
+      {
+        result: false,
+        redirectTo: "http://localhost:3000#pricing",
+        message: "Your plan doesn't allow you to do that",
+      },
+      { status: 401 }
+    );
+  }
+
   const { result } = await verifUserId(userId, workoutId, "workout");
 
   if (!result) {
@@ -23,22 +36,9 @@ export const GET = async (
     );
   }
 
-  // const { result: isPaying } = await isAbleToCUD(userId);
-
-  // if (!isPaying) {
-  //   return NextResponse.json(
-  //     {
-  //       result: false,
-  //       redirectTo: "http://localhost:3000#pricing",
-  //       message: "Your plan doesn't allow you to do that",
-  //     },
-  //     { status: 401 }
-  //   );
-  // }
-
-  let workout = await prisma.workout.findUnique({
+  const workout = await prisma.workout.findUnique({
     where: {
-      id: undefined,
+      id: workoutId,
     },
     include: {
       series: {

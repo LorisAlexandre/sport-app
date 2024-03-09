@@ -2,8 +2,8 @@ import { getUserId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (_req: NextRequest) => {
-  const userId = await getUserId();
+export const GET = async (req: NextRequest) => {
+  const userId = req.headers.get("userId");
 
   if (!userId) {
     return NextResponse.json(

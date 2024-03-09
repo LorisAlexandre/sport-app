@@ -1,12 +1,11 @@
-import { getUserId } from "@/lib/auth";
 import { Exercise, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
-  _req: NextRequest,
+  req: NextRequest,
   { params: { exerciseId } }: { params: { exerciseId: string } }
 ) => {
-  const userId = await getUserId();
+  const userId = req.headers.get("userId");
 
   if (!userId) {
     return NextResponse.json(
@@ -15,11 +14,7 @@ export const GET = async (
     );
   }
 
-  const { result, doc } = await verifUserId<Exercise>(
-    userId,
-    exerciseId,
-    "exercise"
-  );
+  const { result, doc } = await verifUserId(userId, exerciseId, "exercise");
 
   if (!result) {
     return NextResponse.json(

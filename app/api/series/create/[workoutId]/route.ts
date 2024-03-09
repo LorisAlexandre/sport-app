@@ -1,12 +1,12 @@
-import { getUserId } from "@/lib/auth";
-import { Serie, Workout, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
+import { Serie, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (
   req: NextRequest,
   { params: { workoutId } }: { params: { workoutId: string } }
 ) => {
-  const userId = await getUserId();
+  const userId = req.headers.get("userId");
+
   const body: Serie = await req.json();
 
   if (!userId) {

@@ -1,4 +1,3 @@
-import { getUserId } from "@/lib/auth";
 import { Serie, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,7 +5,8 @@ export const PATCH = async (
   req: NextRequest,
   { params: { serieId } }: { params: { serieId: string } }
 ) => {
-  const userId = await getUserId();
+  const userId = req.headers.get("userId");
+
   const body: Serie = await req.json();
 
   if (!userId) {

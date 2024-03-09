@@ -1,12 +1,11 @@
-import { getUserId } from "@/lib/auth";
 import { isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const DELETE = async (
-  _req: NextRequest,
+  req: NextRequest,
   { params: { workoutId } }: { params: { workoutId: string } }
 ) => {
-  const userId = await getUserId();
+  const userId = req.headers.get("userId");
 
   if (!userId) {
     return NextResponse.json(

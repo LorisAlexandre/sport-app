@@ -1,12 +1,8 @@
-import { getUserId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
-  const { searchParams } = req.nextUrl;
-  const archived = searchParams.get("archived");
-
-  const userId = await getUserId();
+  const userId = req.headers.get("userId");
 
   if (!userId) {
     return NextResponse.json(
@@ -15,10 +11,11 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  let workouts = await prisma.workout.findMany({
+  const workouts = await prisma.workout.findMany({
     where: {
-      userId,
-      archived: !!archived ? true : false,
+      users: {
+        has: userId,
+      },
     },
     include: {
       series: {
