@@ -9,7 +9,7 @@ export const PATCH = async (
 
   const body: Exercise = await req.json();
 
-  if (!userId) {
+  if (!userId || userId === undefined) {
     return NextResponse.json(
       { result: false, redirectTo: "/auth/login" },
       { status: 401 }
@@ -32,7 +32,7 @@ export const PATCH = async (
 
   if (!result) {
     return NextResponse.json(
-      { result, message: "Unauthorized" },
+      { result, message: "Unauthorized you're the owner" },
       { status: 401 }
     );
   }
@@ -42,7 +42,17 @@ export const PATCH = async (
       id: exerciseId,
     },
     data: {
-      ...body,
+      bonus: {
+        exerciseProp: body.bonus.exerciseProp ?? null,
+        toAchieved: Number(body.bonus.toAchieved) ?? null,
+      },
+      break: Number(body.break),
+      distance: Number(body.distance),
+      name: body.name.trim() ?? "No name",
+      rank: Number(body.rank),
+      repetition: Number(body.repetition) ?? 1,
+      weight: Number(body.weight),
+      workoutTime: Number(body.workoutTime),
     },
   });
 

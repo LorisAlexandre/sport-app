@@ -29,7 +29,6 @@ export const useErrorProvider = () => {
   const { setMessage, setStatusCode, message, statusCode } =
     useContext(ErrorContext);
   const [isClosing, setIsClosing] = useState(false);
-  const [redirectTo, setRedirectTo] = useState("");
 
   if (!setMessage || !setStatusCode) {
     throw new Error("setMessage || setStatusCode is undefined");

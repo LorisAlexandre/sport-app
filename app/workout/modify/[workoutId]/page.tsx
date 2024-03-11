@@ -1,33 +1,73 @@
-// import ModifWorkout from "@/components/ModifWorkout";
-import { Button } from "@/components/ui";
-import { getUserId } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { ModifWorkout } from "@/components/ModifWorkout";
+import { ToastError } from "@/components/ui";
+import { auth } from "@/lib/auth";
+import { Workout } from "@/lib/db";
+import { CustomResponse } from "@/lib/types/apiRes";
+import { UpdateWorkoutProvider } from "@/providers/UpdateWorkoutProvider";
 
 export default async function Page({
   params: { workoutId },
 }: {
   params: { workoutId: string };
 }) {
-  const userId = await getUserId();
+  const session = await auth();
 
-  if (!userId) {
-    redirect("/auth/login");
+  if (!session?.user) {
+    return (
+      <ToastError
+        message="You are not logged in"
+        statusCode={401}
+        redirectTo="/auth/login"
+      />
+    );
   }
 
   const res = await fetch(
     `${process.env.SERV_URL}/api/workouts/getById/${workoutId}`,
     {
-      method: "GET",
-      cache: "no-cache",
       headers: {
-        userId,
-      },
+        userId: session?.user.id,
+      } as RequestInit["headers"],
+      cache: "no-cache",
     }
   );
 
-  if (!res.ok) {
-    return <pre>{JSON.stringify(res)}</pre>;
-  }
+  try {
+    const { result, data, message, redirectTo } =
+      (await res.json()) as CustomResponse<Workout>;
 
-  return <div>{/* <ModifWorkout res={res} /> */}</div>;
+    if (!result) {
+      return (
+        <ToastError
+          message={message ?? res.statusText}
+          statusCode={res.status}
+          redirectTo={redirectTo}
+        />
+      );
+    }
+
+    return (
+      <div className="flex flex-1 flex-col gap-6">
+        {data ? (
+          <UpdateWorkoutProvider initWorkout={data} session={session}>
+            <ModifWorkout />
+          </UpdateWorkoutProvider>
+        ) : (
+          <ToastError
+            message="No data"
+            statusCode={404}
+            redirectTo="/workout"
+          />
+        )}
+      </div>
+    );
+  } catch (error) {
+    return (
+      <ToastError
+        message={`Error with the server. ${String(error)}`}
+        statusCode={res.status}
+        redirectTo="/"
+      />
+    );
+  }
 }

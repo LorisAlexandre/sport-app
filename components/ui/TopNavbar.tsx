@@ -1,45 +1,43 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { Button } from ".";
 import { useRouter } from "next/navigation";
 import { CustomResponse } from "@/lib/types/apiRes";
 import { Workout } from "@prisma/client";
 import { useErrorProvider } from "@/providers/ErrorProvider";
+import { Session } from "next-auth";
 
-export const TopNavbar = () => {
+export const TopNavbar = ({ session }: { session: Session | null }) => {
   const { setMessage, setStatusCode, handleRedirect } = useErrorProvider();
 
   const router = useRouter();
   const url = usePathname();
-  const { data: session } = useSession();
   const urls = ["/dashboard", "/workout", "/account"];
 
   const handleCreateWorkout = async () => {
     const res = await fetch("/api/workouts/create", {
+      headers: {
+        userId: session?.user.id,
+      } as RequestInit["headers"],
       method: "POST",
       body: JSON.stringify({}),
     });
 
-    if (!res.ok) {
-      setMessage(res.statusText);
-      setMessage(res.statusText);
-    }
+    try {
+      const { result, data, redirectTo, message } =
+        (await res.json()) as CustomResponse<Workout>;
 
-    const { result, data, redirectTo, message } =
-      (await res.json()) as CustomResponse<Workout>;
-
-    if (!result) {
-      setStatusCode(res.status);
-      setMessage(message ?? res.statusText);
-      redirectTo && handleRedirect(redirectTo);
-    }
-    if (data?.id) {
+      if (!result || !data) {
+        setStatusCode(res.status);
+        setMessage(message ?? res.statusText);
+        redirectTo && handleRedirect(redirectTo);
+        return;
+      }
       router.push(`/workout/modify/${data.id}`);
-    } else {
+    } catch (error) {
       setStatusCode(500);
-      setMessage("An error occured, try again later");
+      setMessage(`An error occured, try again later: ${String(error)}`);
     }
   };
 

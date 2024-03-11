@@ -1,5 +1,5 @@
 import { getUserId } from "@/lib/auth";
-import { Workout, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
+import { Serie, Workout, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -48,16 +48,46 @@ export const PATCH = async (
     );
   }
 
-  const updatedWorkout = await prisma.workout.update({
+  const updateWorkout = await prisma.workout.update({
     where: {
       id: workoutId,
     },
     data: {
-      ...body,
+      name: body.name,
+      archived: body.archived,
+    },
+  });
+
+  await Promise.all([
+    body.series.map(async (s, i) => {
+      await prisma.serie.deleteMany({ where: { id: s.id } });
+      await prisma.exercise.deleteMany({ where: { serieId: s.id } });
+      await prisma.serie.create({
+        data: {
+          ...s,
+          rank: i + 1,
+          userId,
+          workoutId,
+          exercises: {},
+        },
+      });
+      await prisma.exercise.createMany({
+        data: s.exercises.map((e, i) => ({
+          ...e,
+          rank: i + 1,
+          userId,
+        })),
+      });
+    }),
+  ]);
+
+  const updatedWorkout = await prisma.workout.findUnique({
+    where: {
+      id: body.id,
     },
     include: {
       series: {
-        include: { exercises: true },
+        include: { exercises: { orderBy: { rank: "asc" } } },
         orderBy: { rank: "asc" },
       },
     },

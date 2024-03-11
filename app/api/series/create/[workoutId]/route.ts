@@ -45,6 +45,10 @@ export const POST = async (
       workoutId,
       exercises: {
         create: {
+          bonus: {
+            exerciseProp: null,
+            toAchieved: null,
+          },
           userId,
           rank: 1,
         },

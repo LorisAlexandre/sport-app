@@ -12,5 +12,5 @@ export default async function WorkoutLayout({
     redirect("/auth/login");
   }
 
-  return <main>{children}</main>;
+  return <main className="flex flex-1 flex-col">{children}</main>;
 }

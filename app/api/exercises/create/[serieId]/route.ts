@@ -1,4 +1,4 @@
-import { Exercise, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
+import { isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (
@@ -6,8 +6,6 @@ export const POST = async (
   { params: { serieId } }: { params: { serieId: string } }
 ) => {
   const userId = req.headers.get("userId");
-
-  const body: Exercise = await req.json();
 
   if (!userId) {
     return NextResponse.json(
@@ -38,20 +36,16 @@ export const POST = async (
     );
   }
 
-  const serie = await prisma.exercise.create({
+  const exercise = await prisma.exercise.create({
     data: {
-      ...body,
+      bonus: {
+        exerciseProp: null,
+        toAchieved: null,
+      },
       userId,
       serieId,
     },
-    include: {
-      Serie: {
-        include: {
-          Workout: true,
-        },
-      },
-    },
   });
 
-  return NextResponse.json({ result: true, data: serie });
+  return NextResponse.json({ result: true, data: exercise });
 };

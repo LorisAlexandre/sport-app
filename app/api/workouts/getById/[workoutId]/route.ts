@@ -1,4 +1,4 @@
-import { isAbleToCUD, prisma, verifUserId } from "@/lib/db";
+import { Workout, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -27,7 +27,7 @@ export const GET = async (
     );
   }
 
-  const { result } = await verifUserId(userId, workoutId, "workout");
+  const { result } = await verifUserId<Workout>(userId, workoutId, "workout");
 
   if (!result) {
     return NextResponse.json(

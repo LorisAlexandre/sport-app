@@ -82,7 +82,7 @@ model Workout {
 
   series Serie[]
 
-  lastRealised DateTime?
+  // lastRealised DateTime?
 
   // Utilisateurs associés au Workout
   users String[]
@@ -106,16 +106,16 @@ model Serie {
 }
 
 model Exercise {
-  id           String        @id @default(cuid()) @map("_id")
-  name         String        @default("No name")
-  repetition   Int?
-  workoutTime  Int?
-  break        Int           @default(30000)
-  distance     Int?
-  weight       Int?
-  lastAchieved lastAchieved?
-  bonus        bonus?
-  rank         Int?
+  id          String @id @default(cuid()) @map("_id")
+  name        String @default("No name")
+  repetition  Int?
+  workoutTime Int?
+  break       Int    @default(30000)
+  distance    Int?
+  weight      Int?
+  // lastAchieved lastAchieved?
+  bonus       bonus
+  rank        Int?
 
   serieId String?
   Serie   Serie?  @relation(fields: [serieId], references: [id], onDelete: Cascade)
@@ -124,14 +124,20 @@ model Exercise {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-type lastAchieved {
-  exerciseProp String?
-  achieved     Int?
-}
+// type lastAchieved {
+//   exerciseProp String?
+//   achieved     Int?
+// }
 
 type bonus {
   toAchieved   Int?
-  exerciseProp String?
+  exerciseProp exoType?
+}
+
+enum exoType {
+  weight
+  distance
+  workoutTime
 }
 
 model Streak {

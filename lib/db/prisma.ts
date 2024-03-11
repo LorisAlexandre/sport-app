@@ -1,8 +1,12 @@
-import { Exercise, PrismaClient, Serie, User, Workout } from "@prisma/client";
+import {
+  Exercise as ExerciseFromPrisma,
+  PrismaClient,
+  Serie as SerieFromPrisma,
+  User,
+  Workout as WorkoutFromPrisma,
+} from "@prisma/client";
 import { auth } from "../auth";
 // import { withAccelerate } from "@prisma/extension-accelerate";
-
-export type { Exercise, Serie, Workout } from "@prisma/client";
 
 export type PrismaModels = "workout" | "serie" | "exercise";
 
@@ -20,6 +24,10 @@ export { prisma };
 
 if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
 
+export type Workout = WorkoutFromPrisma & { series: Serie[] };
+export type Serie = SerieFromPrisma & { exercises: Exercise[] };
+export type Exercise = ExerciseFromPrisma;
+
 export const verifUserId = async <T extends Exercise | Serie | Workout>(
   userId: string,
   id: string,
@@ -31,7 +39,7 @@ export const verifUserId = async <T extends Exercise | Serie | Workout>(
     },
   })) as T;
 
-  if (!doc) return { result: false };
+  if (!doc) return { result: false, doc };
 
   if (doc?.userId !== userId) return { result: false };
 

@@ -6,10 +6,17 @@ import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Navbar, TopNavbar } from "@/components/ui";
 import { ErrorProvider } from "@/providers/ErrorProvider";
-import Link from "next/link";
 
-const fontTitle = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
-const fontBody = Work_Sans({ subsets: ["latin"], variable: "--font-work" });
+const fontTitle = Oswald({
+  subsets: ["latin"],
+  variable: "--font-oswald",
+  preload: true,
+});
+const fontBody = Work_Sans({
+  subsets: ["latin"],
+  variable: "--font-work",
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,15 +35,14 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <body
           className={cn(
-            "font-oswald min-h-screen antialiased flex flex-col gap-8 pt-10 px-5 overflow-x-hidden pb-32",
+            "font-oswald min-h-screen antialiased flex flex-col gap-8 pt-10 px-5 overflow-x-hidden pb-32 lg:pb-10",
             fontTitle.variable,
             "font-work",
             fontBody.variable
           )}
         >
           <ErrorProvider>
-            <TopNavbar />
-            <Link href={"/workout"}>Go Workout</Link>
+            {!!session && <TopNavbar session={session} />}
             {children}
             <Navbar />
           </ErrorProvider>

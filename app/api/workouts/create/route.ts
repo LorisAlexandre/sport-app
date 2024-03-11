@@ -1,4 +1,3 @@
-import { getUserId } from "@/lib/auth";
 import { Workout, isAbleToCUD, prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -41,6 +40,11 @@ export const POST = async (req: NextRequest) => {
           exercises: {
             create: {
               rank: 1,
+              repetition: 1,
+              bonus: {
+                exerciseProp: null,
+                toAchieved: null,
+              },
               userId,
             },
           },
