@@ -12,11 +12,10 @@ export const POST = async (req: NextRequest) => {
       const stripeCustomerId = session.customer as string;
       const user = await findUserFromCustomer(stripeCustomerId);
 
+      console.log(session);
       if (!user) {
         break;
       }
-
-      console.log(session.line_items);
 
       let plan: User["plan"] = "Premium";
 
