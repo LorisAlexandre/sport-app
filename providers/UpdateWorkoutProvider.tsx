@@ -184,6 +184,9 @@ export const useUpdateWorkoutContext = () => {
         setIsLoading(false);
         return false;
       }
+
+      console.log(data);
+
       setWorkout(data);
       setSeries(data.series);
       setSerie(data.series[0]);
