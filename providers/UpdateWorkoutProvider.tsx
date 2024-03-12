@@ -161,15 +161,34 @@ export const useUpdateWorkoutContext = () => {
 
   const handleSaveWorkout = async () => {
     setIsLoading(true);
-    await handleSerieSelection(workout.series[0].id);
 
-    const res = await fetch(`/api/workouts/update/${workout.id}`, {
+    const currExercise = exercise;
+    const currExerciseIndex = exercises.findIndex(
+      (e) => e.id === currExercise.id
+    );
+    const newExercises = exercises;
+    newExercises.splice(currExerciseIndex, 1, currExercise);
+
+    const currSerie = serie;
+    const currSerieIndex = series.findIndex((s) => s.id === currSerie.id);
+    const newSeries = series;
+    newSeries.splice(currSerieIndex, 1, {
+      ...currSerie,
+      exercises: newExercises,
+    });
+
+    const newWorkout: Workout = {
+      ...workout,
+      series: newSeries,
+    };
+
+    const res = await fetch(`/api/workouts/update/${newWorkout.id}`, {
       method: "PATCH",
       headers: {
         userId: session.user.id,
       } as RequestInit["headers"],
       cache: "no-cache",
-      body: JSON.stringify(workout),
+      body: JSON.stringify(newWorkout),
     });
 
     try {
@@ -185,13 +204,13 @@ export const useUpdateWorkoutContext = () => {
         return false;
       }
 
-      console.log(data);
-
       setWorkout(data);
       setSeries(data.series);
       setSerie(data.series[0]);
       setExercises(data.series[0].exercises);
       setExercise(data.series[0].exercises[0]);
+
+      setIsLoading(false);
     } catch (error) {
       setMessage(String(error));
       setStatusCode(res.status);

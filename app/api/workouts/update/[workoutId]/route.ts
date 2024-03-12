@@ -48,7 +48,7 @@ export const PATCH = async (
     );
   }
 
-  await Promise.all([
+  await Promise.all(
     body.series.map(async (s, i) => {
       await prisma.serie.deleteMany({ where: { id: s.id } });
       await prisma.serie.create({
@@ -78,8 +78,8 @@ export const PATCH = async (
           userId,
         })),
       });
-    }),
-  ]);
+    })
+  );
 
   const updatedWorkout = await prisma.workout.update({
     where: {
