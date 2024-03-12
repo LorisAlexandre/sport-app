@@ -228,7 +228,7 @@ export const useUpdateWorkoutContext = () => {
     }
   };
 
-  const handleSaveSerie = async () => {
+  const handleSaveSerie = async (): Promise<Serie | null> => {
     setIsLoading(true);
     const currSerie = serie;
 
@@ -249,7 +249,7 @@ export const useUpdateWorkoutContext = () => {
         setStatusCode(res.status);
         setIsLoading(false);
         redirectTo && handleRedirect(redirectTo);
-        return;
+        return null;
       }
 
       const savedSerie = data;
@@ -270,11 +270,13 @@ export const useUpdateWorkoutContext = () => {
       setExercise(newSeries[0].exercises[0]);
 
       setIsLoading(false);
+      return savedSerie;
     } catch (error) {
       setMessage(String(error));
       setStatusCode(res.status);
       setIsLoading(false);
       handleRedirect("/");
+      return null;
     }
   };
   const handleSerieSelection = async (id: Serie["id"]) => {
@@ -352,7 +354,8 @@ export const useUpdateWorkoutContext = () => {
     }
   };
   const handleCreateSerie = async () => {
-    await handleSaveExercise(exercise);
+    await handleExerciseSelection(serie.exercises[0].id, serie.exercises);
+    const currSavedSerie = await handleSaveSerie();
 
     setIsLoading(true);
     const res = await fetch(`/api/series/create/${workout.id}`, {
@@ -380,6 +383,13 @@ export const useUpdateWorkoutContext = () => {
 
       const savedSerie = data;
       const newSeries = [...series, savedSerie];
+
+      currSavedSerie &&
+        newSeries.splice(
+          newSeries.findIndex((s) => s.id === currSavedSerie.id),
+          1,
+          currSavedSerie
+        );
 
       const newWorkout: Workout = {
         ...workout,

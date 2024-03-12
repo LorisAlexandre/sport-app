@@ -21,7 +21,7 @@ export const SerieModifCard = () => {
             min={0}
             className="w-9"
             type="number"
-            value={serie.repetition}
+            value={serie.repetition ?? 1}
           />
         </span>
       </div>
