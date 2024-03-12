@@ -48,20 +48,9 @@ export const PATCH = async (
     );
   }
 
-  const updateWorkout = await prisma.workout.update({
-    where: {
-      id: workoutId,
-    },
-    data: {
-      name: body.name,
-      archived: body.archived,
-    },
-  });
-
   await Promise.all([
     body.series.map(async (s, i) => {
       await prisma.serie.deleteMany({ where: { id: s.id } });
-      await prisma.exercise.deleteMany({ where: { serieId: s.id } });
       await prisma.serie.create({
         data: {
           ...s,
@@ -92,9 +81,13 @@ export const PATCH = async (
     }),
   ]);
 
-  const updatedWorkout = await prisma.workout.findUnique({
+  const updatedWorkout = await prisma.workout.update({
     where: {
-      id: body.id,
+      id: workoutId,
+    },
+    data: {
+      name: body.name,
+      archived: body.archived,
     },
     include: {
       series: {
