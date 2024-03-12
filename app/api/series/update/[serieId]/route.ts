@@ -49,7 +49,6 @@ export const PATCH = async (
     },
     include: {
       exercises: true,
-      Workout: true,
     },
   });
 
