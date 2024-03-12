@@ -3,15 +3,19 @@
 import { useRouter } from "next/navigation";
 import { Button } from ".";
 import { stripe } from "@/lib/stripe";
+import { Session } from "next-auth";
+import { useErrorProvider } from "@/providers/ErrorProvider";
 
-export const BuyButton = () => {
+export const BuyButton = ({ session }: { session: Session | null }) => {
   const router = useRouter();
+  const { setMessage, handleRedirect } = useErrorProvider();
 
   const handleCheckoutSession = async () => {
-    const res = await fetch("/api/user/getByAuth");
-    const { result, user } = await res.json();
+    const user = session?.user;
 
-    if (!result || !user) {
+    if (!user) {
+      setMessage("Tu n'es pas encore connecté !");
+      handleRedirect("/auth/login");
       return;
     }
 
@@ -21,11 +25,11 @@ export const BuyButton = () => {
       throw new Error("No customer Id");
     }
 
-    const session = await stripe.checkout.sessions.create({
+    const stripeSession = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: "payment",
       payment_method_types: ["card"],
-      success_url: "https://sport-app-zeta.vercel.app/success",
+      success_url: "https://sport-app-zeta.vercel.app/account",
       cancel_url: "https://sport-app-zeta.vercel.app/",
       line_items: [
         {
@@ -40,12 +44,16 @@ export const BuyButton = () => {
       ],
     });
 
-    if (!session.url) {
+    if (!stripeSession.url) {
       throw new Error("No session created try later");
     }
 
-    router.push(session.url);
+    router.push(stripeSession.url);
   };
 
-  return <Button onClick={handleCheckoutSession}>Buy</Button>;
+  return (
+    <Button variant={"default"} onClick={handleCheckoutSession}>
+      Buy
+    </Button>
+  );
 };
