@@ -299,13 +299,9 @@ export const useUpdateWorkoutContext = () => {
   ) => {
     setSerie((s) => ({ ...s, [key]: value }));
   };
-  const handleChangeSerieTime = (
-    key: "break",
-    minutes: number,
-    secondes: number
-  ) => {
+  const handleChangeSerieTime = (minutes: number, secondes: number) => {
     const value = turnIntoMS(0, 0, minutes, secondes);
-    setExercise((e) => ({ ...e, [key]: value }));
+    setSerie((s) => ({ ...s, break: value }));
   };
   const handleDeleteSerie = async (id: Serie["id"]) => {
     setIsLoading(true);
