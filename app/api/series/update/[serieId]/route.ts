@@ -43,7 +43,9 @@ export const PATCH = async (
       id: serieId,
     },
     data: {
-      ...body,
+      break: body.break,
+      rank: body.rank,
+      repetition: body.repetition,
     },
     include: {
       exercises: true,
