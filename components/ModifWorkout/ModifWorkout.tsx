@@ -13,7 +13,7 @@ export const ModifWorkout = () => {
       <div className="flex justify-between gap-4 pb-10">
         <input
           type="text"
-          defaultValue={workout.name}
+          value={workout.name}
           onChange={(e) => setWorkout((w) => ({ ...w, name: e.target.value }))}
           className="flex flex-1 text-3xl uppercase font-oswald max-w-[220px] sm:max-w-none font-bold flex-wrap cursor-text min-h-9 outline-none "
         />

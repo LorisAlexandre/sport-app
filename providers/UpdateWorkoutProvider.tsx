@@ -175,18 +175,15 @@ export const useUpdateWorkoutContext = () => {
     try {
       const { result, data, message, redirectTo } =
         (await res.json()) as CustomResponse<Workout>;
-
       if (redirectTo) {
         handleRedirect(redirectTo);
       }
-
       if (!result || !data) {
         setMessage(message);
         setStatusCode(res.status);
         setIsLoading(false);
         return false;
       }
-
       setWorkout(data);
       setSeries(data.series);
       setSerie(data.series[0]);
@@ -231,17 +228,71 @@ export const useUpdateWorkoutContext = () => {
     }
   };
 
+  const handleSaveSerie = async () => {
+    setIsLoading(true);
+    const currSerie = serie;
+
+    const res = await fetch(`/api/series/update/${currSerie.id}`, {
+      method: "PATCH",
+      headers: {
+        userId: session.user.id,
+      },
+      body: JSON.stringify(currSerie),
+    });
+
+    try {
+      const { result, data, message, redirectTo } =
+        (await res.json()) as CustomResponse<Serie>;
+
+      if (!result || !data) {
+        setMessage(message);
+        setStatusCode(res.status);
+        setIsLoading(false);
+        redirectTo && handleRedirect(redirectTo);
+        return;
+      }
+
+      const savedSerie = data;
+
+      const newSeries = [...series];
+      const currSerieIndex = newSeries.findIndex((s) => s.id === currSerie.id);
+      newSeries.splice(currSerieIndex, 1, savedSerie);
+
+      const newWorkout = {
+        ...workout,
+        series: newSeries,
+      };
+
+      setWorkout(newWorkout);
+      setSeries(newSeries);
+      setSerie(savedSerie);
+      setExercises(newSeries[0].exercises);
+      setExercise(newSeries[0].exercises[0]);
+
+      setIsLoading(false);
+    } catch (error) {
+      setMessage(String(error));
+      setStatusCode(res.status);
+      setIsLoading(false);
+      handleRedirect("/");
+    }
+  };
   const handleSerieSelection = async (id: Serie["id"]) => {
-    const serie = series.find((s) => s.id === id);
-    if (!serie) return;
+    const serieFind = series.find((s) => s.id === id);
+    if (!serieFind) return;
 
-    await handleExerciseSelection(serie.exercises[0].id, serie.exercises);
+    await handleSaveSerie();
+    await handleExerciseSelection(
+      serieFind.exercises[0].id,
+      serieFind.exercises
+    );
 
-    setSerie(serie);
-    setExercises(serie.exercises);
+    setExercises(serieFind.exercises);
+    setExercise(serieFind.exercises[0]);
+    setSerie(serieFind);
   };
   const handleChangeSerie = <T extends keyof Serie>(
-    key: keyof Serie,
+    key: T,
     value: Serie[T]
   ) => {
     setSerie((s) => ({ ...s, [key]: value }));

@@ -65,6 +65,8 @@ export const PATCH = async (
       await prisma.serie.create({
         data: {
           ...s,
+          break: Number(s.break),
+          repetition: Number(s.repetition),
           rank: i + 1,
           userId,
           workoutId,
@@ -74,6 +76,15 @@ export const PATCH = async (
       await prisma.exercise.createMany({
         data: s.exercises.map((e, i) => ({
           ...e,
+          bonus: {
+            ...e.bonus,
+            toAchieved: Number(e.bonus.toAchieved),
+          },
+          break: Number(e.break),
+          repetition: Number(e.repetition),
+          distance: Number(e.distance),
+          workoutTime: Number(e.workoutTime),
+          weight: Number(e.weight),
           rank: i + 1,
           userId,
         })),

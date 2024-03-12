@@ -15,11 +15,13 @@ export const SerieModifCard = () => {
         <span>
           x{" "}
           <input
-            onChange={(e) => handleChangeSerie("repetition", e.target.value)}
+            onChange={(e) =>
+              handleChangeSerie("repetition", Number(e.target.value))
+            }
             min={0}
             className="w-9"
             type="number"
-            defaultValue={serie.repetition}
+            value={serie.repetition}
           />
         </span>
       </div>
@@ -28,21 +30,25 @@ export const SerieModifCard = () => {
         <div>
           <span>
             <input
-              onChange={(e) => handleChangeSerie("break", e.target.value)}
+              onChange={(e) =>
+                handleChangeSerie("break", Number(e.target.value))
+              }
               min={0}
               className="w-9"
               type="number"
-              defaultValue={formatTime(serie.break ?? 0).minutes}
+              value={formatTime(serie.break ?? 0).minutes}
             />{" "}
             min
           </span>{" "}
           <span>
             <input
-              onChange={(e) => handleChangeSerie("break", e.target.value)}
+              onChange={(e) =>
+                handleChangeSerie("break", Number(e.target.value))
+              }
               min={0}
               className="w-9"
               type="number"
-              defaultValue={formatTime(serie.break ?? 0).seconds}
+              value={formatTime(serie.break ?? 0).seconds}
             />{" "}
             s
           </span>

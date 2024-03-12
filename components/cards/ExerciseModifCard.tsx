@@ -44,9 +44,7 @@ export const ExerciseModifCard = () => {
                 min={0}
                 className="w-10"
                 type="number"
-                defaultValue={
-                  formatTime(exercise.bonus.toAchieved ?? 0).minutes
-                }
+                value={formatTime(exercise.bonus.toAchieved ?? 0).minutes}
               />{" "}
               min
             </span>{" "}
@@ -65,9 +63,7 @@ export const ExerciseModifCard = () => {
                 min={0}
                 className="w-10"
                 type="number"
-                defaultValue={
-                  formatTime(exercise.bonus.toAchieved ?? 0).seconds
-                }
+                value={formatTime(exercise.bonus.toAchieved ?? 0).seconds}
               />{" "}
               s
             </span>
@@ -148,7 +144,7 @@ export const ExerciseModifCard = () => {
                 min={0}
                 className="w-10"
                 type="number"
-                defaultValue={formatTime(exercise.workoutTime ?? 0).minutes}
+                value={formatTime(exercise.workoutTime ?? 0).minutes}
               />{" "}
               min
             </span>{" "}
@@ -164,7 +160,7 @@ export const ExerciseModifCard = () => {
                 min={0}
                 className="w-10"
                 type="number"
-                defaultValue={formatTime(exercise.workoutTime ?? 0).seconds}
+                value={formatTime(exercise.workoutTime ?? 0).seconds}
               />{" "}
               s
             </span>
