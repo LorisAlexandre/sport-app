@@ -75,6 +75,8 @@ export const POST = async (req: NextRequest) => {
 
       let plan: User["plan"] = "Premium";
 
+      console.log(stripeSession);
+
       if (
         stripeSession.line_items?.data[0].id === process.env.COACH_STRIPE_ID
       ) {
