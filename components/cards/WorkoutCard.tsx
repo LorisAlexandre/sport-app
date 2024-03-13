@@ -8,6 +8,7 @@ import {
 } from "../ui/card";
 import { Workout } from "@/lib/db";
 import { formatTime } from "@/lib/functions";
+import AddUsersContainer from "../AddUsersContainer";
 
 export const WorkoutCard = (props: Workout) => {
   return (
@@ -82,7 +83,7 @@ export const WorkoutCard = (props: Workout) => {
         </div>
       </CardContent>
       <CardFooter className="justify-center font-bold">
-        Et encore plus ... 💪
+        <AddUsersContainer workoutId={props.id} />
       </CardFooter>
     </Card>
   );

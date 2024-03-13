@@ -18,9 +18,11 @@ export const POST = async (req: NextRequest) => {
       }
 
       let plan: User["plan"] = "Premium";
+      let AffiliateLink: User["AffiliateLink"] = null;
 
       if (session.amount_total! > 4999) {
         plan = "Coach";
+        AffiliateLink = crypto.randomUUID();
       }
 
       await prisma.user.update({
@@ -29,6 +31,7 @@ export const POST = async (req: NextRequest) => {
         },
         data: {
           plan,
+          AffiliateLink,
         },
       });
 

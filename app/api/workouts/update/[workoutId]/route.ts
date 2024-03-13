@@ -1,4 +1,3 @@
-import { getUserId } from "@/lib/auth";
 import { Serie, Workout, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -7,7 +6,7 @@ export const PATCH = async (
   req: NextRequest,
   { params: { workoutId } }: { params: { workoutId: string } }
 ) => {
-  const userId = await getUserId();
+  const userId = req.headers.get("userId");
   const body: Workout = await req.json();
 
   if (!userId) {
