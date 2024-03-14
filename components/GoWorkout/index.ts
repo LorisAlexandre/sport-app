@@ -1,3 +1,5 @@
+"use client";
+
 export { GoWorkout } from "./GoWorkout";
 export { GWNavbar } from "./GWNavbar";
 export { GWExerciseCard } from "./GWExerciseCard";
