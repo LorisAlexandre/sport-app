@@ -61,5 +61,9 @@ export default async function Page({
     });
   });
 
-  return <div></div>;
+  return (
+    <GoWorkoutProvider cleanWorkout={cleanWorkout} initWorkout={workout}>
+      <GoWorkout />
+    </GoWorkoutProvider>
+  );
 }
