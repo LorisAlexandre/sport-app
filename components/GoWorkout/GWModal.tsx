@@ -1,3 +1,5 @@
+"use client";
+
 import { useGoWorkoutContext } from "@/providers/GoWorkoutProvider";
 import { Button } from "../ui";
 

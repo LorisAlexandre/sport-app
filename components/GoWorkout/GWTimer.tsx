@@ -1,3 +1,5 @@
+"use client";
+
 import { formatTime } from "@/lib/functions";
 import { useGoWorkoutContext } from "@/providers/GoWorkoutProvider";
 

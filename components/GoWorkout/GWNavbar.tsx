@@ -1,3 +1,5 @@
+"use client";
+
 import { Pause } from "lucide-react";
 import { Button } from "../ui";
 import { useGoWorkoutContext } from "@/providers/GoWorkoutProvider";
