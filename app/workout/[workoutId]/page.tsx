@@ -1,5 +1,3 @@
-"use server";
-
 import { GoWorkout } from "@/components/GoWorkout";
 import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
@@ -63,9 +61,5 @@ export default async function Page({
     });
   });
 
-  return (
-    <GoWorkoutProvider cleanWorkout={cleanWorkout} initWorkout={workout}>
-      <GoWorkout />
-    </GoWorkoutProvider>
-  );
+  return <div></div>;
 }
