@@ -1,7 +1,9 @@
+"use server";
+
 import { GoWorkout } from "@/components/GoWorkout";
 import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
-import { Workout, prisma } from "@/lib/db";
+import { prisma } from "@/lib/db";
 import { GoWorkoutProvider } from "@/providers/GoWorkoutProvider";
 
 export default async function Page({
