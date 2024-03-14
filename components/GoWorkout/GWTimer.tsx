@@ -9,8 +9,8 @@ export const GWTimer = () => {
   return (
     <>
       <div className="font-oswald">
-        {String(formatTime(timer).minutes).padStart(2, "0")}"
-        {String(formatTime(timer).seconds).padStart(2, "0")}'
+        {String(formatTime(timer).minutes).padStart(2, "0")}&quot;
+        {String(formatTime(timer).seconds).padStart(2, "0")}&apos;
       </div>
     </>
   );

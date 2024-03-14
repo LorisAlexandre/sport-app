@@ -19,7 +19,7 @@ export const GWNavbar = () => {
           <Pause />
         </Button>
       </div>
-      <span>Préfère une pause à l'abandon</span>
+      <span>Préfère une pause à l&apos;abandon</span>
     </div>
   );
 };
