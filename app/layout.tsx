@@ -35,7 +35,7 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <body
           className={cn(
-            "font-oswald min-h-screen antialiased flex flex-col gap-8 pt-10 px-5 overflow-x-hidden pb-32 lg:pb-10",
+            "font-oswald min-h-screen antialiased flex flex-col gap-8 pt-10 px-5 overflow-x-hidden",
             fontTitle.variable,
             "font-work",
             fontBody.variable

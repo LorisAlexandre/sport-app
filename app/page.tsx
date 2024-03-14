@@ -5,7 +5,7 @@ export default async function Home() {
   const session = await auth();
 
   return (
-    <div>
+    <div className="pb-32 lg:pb-10">
       <Pricing session={session} />
     </div>
   );

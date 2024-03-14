@@ -21,7 +21,7 @@ const AuthCard = () => {
       <CardContent className="flex justify-center">
         <Button
           className="flex gap-4"
-          onClick={() => signIn("google", { callbackUrl: "/workout" })}
+          onClick={() => signIn("google", { callbackUrl: "/account" })}
         >
           <Image
             className="h-fit"
