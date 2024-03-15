@@ -1,4 +1,5 @@
 import WeekSchedule from "@/components/WeekSchedule";
+import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 

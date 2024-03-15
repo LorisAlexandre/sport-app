@@ -73,3 +73,14 @@ export const findUserFromCustomer = async (stripeCustomerId: string) => {
   });
   return user;
 };
+
+export const getStreaksForToday = async (
+  page: number,
+  pageSize: number
+): Promise<Streak[]> => {
+  const offset = (page - 1) * pageSize;
+  return await prisma.streak.findMany({
+    take: pageSize,
+    skip: offset,
+  });
+};
