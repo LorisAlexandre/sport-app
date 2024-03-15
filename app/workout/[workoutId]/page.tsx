@@ -22,6 +22,9 @@ export default async function Page({
       },
     },
   });
+  const streak = await prisma.streak.findFirst({
+    where: { userId: session?.user.id },
+  });
 
   if (!workout) {
     return (
@@ -62,7 +65,12 @@ export default async function Page({
   });
 
   return (
-    <GoWorkoutProvider cleanWorkout={cleanWorkout} initWorkout={workout}>
+    <GoWorkoutProvider
+      cleanWorkout={cleanWorkout}
+      initWorkout={workout}
+      session={session}
+      streakId={streak?.id ?? ""}
+    >
       <GoWorkout />
     </GoWorkoutProvider>
   );

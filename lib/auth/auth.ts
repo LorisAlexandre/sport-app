@@ -28,6 +28,11 @@ export const { handlers, auth } = NextAuth({
           stripeCustomerId: stripeCustomer.id,
         },
       });
+      await prisma.streak.create({
+        data: {
+          userId,
+        },
+      });
     },
     async signIn(session) {
       const currUser = session.user;

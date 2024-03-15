@@ -1,6 +1,8 @@
 "use client";
 
 import { Workout } from "@/lib/db";
+import { CustomResponse } from "@/lib/types/apiRes";
+import { Streak } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import {
   Dispatch,
@@ -11,6 +13,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useErrorProvider } from "./ErrorProvider";
+import { Session } from "next-auth";
 
 export interface GoWorkoutContextType {
   workoutProps: Workout | undefined;
@@ -27,6 +31,8 @@ export interface GoWorkoutContextType {
   setGoTimer: Dispatch<SetStateAction<boolean>> | undefined;
   workoutPause: boolean | undefined;
   setWorkoutPause: Dispatch<SetStateAction<boolean>> | undefined;
+  session: Session | null | undefined;
+  streakId: Streak["id"] | undefined;
 }
 
 export const GoWorkoutContext = createContext<GoWorkoutContextType>({
@@ -44,6 +50,8 @@ export const GoWorkoutContext = createContext<GoWorkoutContextType>({
   setGoTimer: undefined,
   workoutPause: undefined,
   setWorkoutPause: undefined,
+  session: undefined,
+  streakId: undefined,
 });
 
 export const useGoWorkoutContext = () => {
@@ -62,7 +70,10 @@ export const useGoWorkoutContext = () => {
     setGoTimer,
     workoutPause,
     setWorkoutPause,
+    session,
+    streakId,
   } = useContext(GoWorkoutContext);
+  const { handleRedirect, setMessage, setStatusCode } = useErrorProvider();
   const router = useRouter();
 
   if (workout === undefined) {
@@ -107,6 +118,12 @@ export const useGoWorkoutContext = () => {
   if (setWorkoutPause === undefined) {
     throw new Error("setWorkoutPause is not defined");
   }
+  if (session === undefined) {
+    throw new Error("session is not defined");
+  }
+  if (streakId === undefined) {
+    throw new Error("streakId is not defined");
+  }
 
   const handleGoNext = () => {
     setGoTimer(false);
@@ -142,10 +159,29 @@ export const useGoWorkoutContext = () => {
   };
 
   const handleWorkoutEnd = async () => {
-    console.log("fini");
-    router.push("/dashboard");
-    // const res = await fetch(``);
-    // const {} = (await res.json()) as CustomResponse<any>;
+    const res = await fetch(`/api/streak/update/${streakId}`, {
+      method: "PATCH",
+      headers: {
+        userId: session?.user.id,
+      } as RequestInit["headers"],
+      body: JSON.stringify({ todayCount: true }),
+    });
+
+    try {
+      const { result, data, message, redirectTo } =
+        (await res.json()) as CustomResponse<Streak>;
+
+      if (!result || !data) {
+        setMessage(message);
+        setStatusCode(res.status);
+        redirectTo && handleRedirect(redirectTo);
+        return;
+      }
+      router.push("/dashboard");
+    } catch (error) {
+      setMessage(String(error));
+      setStatusCode(res.status);
+    }
   };
 
   const handleWorkoutPause = () => {
@@ -187,10 +223,14 @@ export const GoWorkoutProvider = ({
   children,
   cleanWorkout,
   initWorkout,
+  session,
+  streakId,
 }: {
   children: ReactNode;
   cleanWorkout: any[];
   initWorkout: Workout;
+  session: Session | null;
+  streakId: Streak["id"];
 }) => {
   const [workoutProps, setWorkoutProps] = useState<Workout>(initWorkout);
   const [workout, setWorkout] = useState<any[]>(cleanWorkout);
@@ -215,6 +255,8 @@ export const GoWorkoutProvider = ({
     setGoTimer,
     workoutPause,
     setWorkoutPause,
+    session,
+    streakId,
   };
 
   return (

@@ -9,6 +9,7 @@ import {
 import { Workout } from "@/lib/db";
 import { formatTime } from "@/lib/functions";
 import AddUsersContainer from "../AddUsersContainer";
+import { Play, PenBox } from "lucide-react";
 
 export const WorkoutCard = (props: Workout) => {
   return (
@@ -18,43 +19,15 @@ export const WorkoutCard = (props: Workout) => {
         <div className="flex gap-3">
           <Link
             href={`/workout/${props.id}`}
-            className="aspect-square w-6 bg-white hover:bg-slate-200"
+            className="bg-white hover:bg-slate-100 p-1 rounded-md"
           >
-            <svg
-              width="16"
-              height="21"
-              viewBox="0 0 16 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M1 1.5L15 10.5L1 19.5V1.5Z"
-                stroke="#000"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Play />
           </Link>
           <Link
             href={`/workout/modify/${props.id}`}
-            className="aspect-square w-6 bg-white hover:bg-slate-200"
+            className="bg-white hover:bg-slate-100 p-1 rounded-md"
           >
-            <svg
-              width="18"
-              height="19"
-              viewBox="0 0 18 19"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17 4.5H8M11 14.5H2M11 14.5C11 16.1569 12.3431 17.5 14 17.5C15.6569 17.5 17 16.1569 17 14.5C17 12.8431 15.6569 11.5 14 11.5C12.3431 11.5 11 12.8431 11 14.5ZM7 4.5C7 6.15685 5.65685 7.5 4 7.5C2.34315 7.5 1 6.15685 1 4.5C1 2.84315 2.34315 1.5 4 1.5C5.65685 1.5 7 2.84315 7 4.5Z"
-                stroke="#000"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <PenBox />
           </Link>
         </div>
       </CardHeader>
@@ -73,10 +46,20 @@ export const WorkoutCard = (props: Workout) => {
             <p>Repos :</p>
             <div className="flex gap-1">
               <p>
-                {formatTime(props.series[0]?.exercises[0]?.break ?? 0).minutes}{" "}
-                min{" "}
-                {formatTime(props.series[0]?.exercises[0]?.break ?? 0).minutes}{" "}
-                s
+                {!!formatTime(props.series[0]?.exercises[0]?.break ?? 0)
+                  .minutes && (
+                  <>
+                    {String(
+                      formatTime(props.series[0]?.exercises[0]?.break ?? 0)
+                        .minutes
+                    ).padStart(2, "0")}{" "}
+                    &quot;{" "}
+                  </>
+                )}
+                {String(
+                  formatTime(props.series[0]?.exercises[0]?.break ?? 0).seconds
+                ).padStart(2, "0")}{" "}
+                &apos;
               </p>
             </div>
           </div>

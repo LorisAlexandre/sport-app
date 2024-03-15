@@ -5,15 +5,14 @@ import { Button } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { signOut } from "next-auth/react";
 
-export default async function Page() {
-  const session = await auth();
-
+export default function Page() {
   return (
     <div>
-      {session?.user.plan === "None" && <Pricing session={session} />}
+      {/* {session?.user.plan === "None" && <Pricing session={session} />} */}
       <Button variant={"default"} onClick={() => signOut()}>
         Logout
       </Button>
+      <span>test</span>
     </div>
   );
 }

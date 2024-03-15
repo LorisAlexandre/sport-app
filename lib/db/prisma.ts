@@ -2,13 +2,14 @@ import {
   Exercise as ExerciseFromPrisma,
   PrismaClient,
   Serie as SerieFromPrisma,
+  Streak,
   User,
   Workout as WorkoutFromPrisma,
 } from "@prisma/client";
 import { auth } from "../auth";
 // import { withAccelerate } from "@prisma/extension-accelerate";
 
-export type PrismaModels = "workout" | "serie" | "exercise";
+export type PrismaModels = "workout" | "serie" | "exercise" | "streak";
 
 const prismaClientSingleton = () => {
   return new PrismaClient();
@@ -28,7 +29,9 @@ export type Workout = WorkoutFromPrisma & { series: Serie[] };
 export type Serie = SerieFromPrisma & { exercises: Exercise[] };
 export type Exercise = ExerciseFromPrisma;
 
-export const verifUserId = async <T extends Exercise | Serie | Workout>(
+export const verifUserId = async <
+  T extends Exercise | Serie | Workout | Streak
+>(
   userId: string,
   id: string,
   schema: PrismaModels
