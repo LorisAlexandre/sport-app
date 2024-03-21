@@ -70,7 +70,7 @@ const WeekSchedule = ({ weekSchema, userId, id: streakId }: Streak) => {
   };
 
   return (
-    <div>
+    <div className="px-8 py-4 rounded-xl border">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl uppercase">Mon planning hebdo</h1>
         <Button onClick={handleSaveWeekSchema} variant={"default"}>

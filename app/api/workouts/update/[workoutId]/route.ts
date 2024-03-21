@@ -1,4 +1,4 @@
-import { Serie, Workout, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
+import { Workout, isAbleToCUD, prisma, verifUserId } from "@/lib/db";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -25,15 +25,6 @@ export const PATCH = async (
         redirectTo: "http://localhost:3000#pricing",
         message: "Your plan doesn't allow you to do that",
       },
-      { status: 401 }
-    );
-  }
-
-  const isVerified = await verifUserId(userId, workoutId, "workout");
-
-  if (!isVerified) {
-    return NextResponse.json(
-      { result: false, message: "Unauthorized" },
       { status: 401 }
     );
   }
@@ -69,7 +60,7 @@ export const PATCH = async (
             toAchieved: Number(e.bonus.toAchieved),
           },
           break: Number(e.break),
-          repetition: Number(e.repetition),
+          repetition: Number(e.repetition ?? 1),
           distance: Number(e.distance),
           workoutTime: Number(e.workoutTime),
           weight: Number(e.weight),

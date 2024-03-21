@@ -31,6 +31,7 @@ export const ExerciseModifCard = () => {
           <div>
             <span>
               <input
+                onFocus={(e) => e.target.select()}
                 onChange={(ev) => {
                   handleChangeBonusExercise(
                     "exerciseProp",
@@ -50,6 +51,7 @@ export const ExerciseModifCard = () => {
             </span>{" "}
             <span>
               <input
+                onFocus={(e) => e.target.select()}
                 onChange={(ev) => {
                   handleChangeBonusExercise(
                     "exerciseProp",
@@ -75,6 +77,7 @@ export const ExerciseModifCard = () => {
         input = (
           <span>
             <input
+              onFocus={(e) => e.target.select()}
               type="number"
               value={exercise.bonus.toAchieved ?? 0}
               className="outline-none w-12"
@@ -98,6 +101,7 @@ export const ExerciseModifCard = () => {
         input = (
           <span>
             <input
+              onFocus={(e) => e.target.select()}
               type="number"
               value={exercise.bonus.toAchieved ?? 0}
               className="outline-none w-16"
@@ -134,6 +138,7 @@ export const ExerciseModifCard = () => {
           <div>
             <span>
               <input
+                onFocus={(e) => e.target.select()}
                 onChange={(ev) =>
                   handleChangeExerciseTime(
                     "workoutTime",
@@ -150,6 +155,7 @@ export const ExerciseModifCard = () => {
             </span>{" "}
             <span>
               <input
+                onFocus={(e) => e.target.select()}
                 onChange={(ev) =>
                   handleChangeExerciseTime(
                     "workoutTime",
@@ -172,6 +178,7 @@ export const ExerciseModifCard = () => {
         input = (
           <span>
             <input
+              onFocus={(e) => e.target.select()}
               type="number"
               value={exercise.weight ?? 0}
               className="outline-none w-12"
@@ -186,6 +193,7 @@ export const ExerciseModifCard = () => {
         input = (
           <span>
             <input
+              onFocus={(e) => e.target.select()}
               type="number"
               value={exercise.distance ?? 0}
               className="outline-none w-16"
@@ -211,6 +219,7 @@ export const ExerciseModifCard = () => {
     <div className="flex flex-col flex-1 gap-4 border rounded-md border-black px-4 py-2 h-fit">
       <div className="flex w-full justify-between items-center">
         <input
+          onFocus={(e) => e.target.select()}
           type="text"
           className="font-work font-bold outline-none"
           onChange={(ev) => handleChangeExercise("name", ev.target.value)}
@@ -219,6 +228,7 @@ export const ExerciseModifCard = () => {
         <span>
           x
           <input
+            onFocus={(e) => e.target.select()}
             type="number"
             className="w-10 outline-none"
             onChange={(ev) =>

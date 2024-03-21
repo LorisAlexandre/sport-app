@@ -41,10 +41,6 @@ export const PATCH = async (req: NextRequest) => {
               today.getDate() + ((nextDay + 7 - today.getDay()) % 7)
             );
             streak.nextDateCount = nextDateCount;
-
-            if (streak.currentStreak > streak.longuestStreak) {
-              streak.longuestStreak = streak.currentStreak;
-            }
           } else {
             streak.currentStreak = 1;
 
@@ -58,6 +54,11 @@ export const PATCH = async (req: NextRequest) => {
           }
           // Initialiser lastDateCount sur aujourd'hui
           streak.lastDateCount = new Date(today);
+
+          // Vérifie si currentStreak sup à longuestStreak
+          if (streak.currentStreak > streak.longuestStreak) {
+            streak.longuestStreak = streak.currentStreak;
+          }
         } else {
           streak.currentStreak = 0;
         }

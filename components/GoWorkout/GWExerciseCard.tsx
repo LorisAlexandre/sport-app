@@ -20,8 +20,14 @@ export const GWExerciseCard = () => {
     }
 
     return (
-      <div className="flex w-full items-center justify-center">
-        <span>{type}</span>
+      <div className="font-oswald font-bold flex items-center text-3xl uppercase w-full gap-3 mb-6">
+        {!!type && (
+          <>
+            <div className="w-full h-1 rounded-full bg-black" />
+            <div className="min-w-max px-5">{type}</div>
+            <div className="w-full h-1 rounded-full bg-black" />
+          </>
+        )}
       </div>
     );
   };
@@ -45,12 +51,11 @@ export const GWExerciseCard = () => {
     } else {
       action = (
         <>
-          <h2 className="font-bold text-4xl uppercase">{currAction.name}</h2>
-          <div className="font-oswald font-bold flex items-center text-3xl uppercase w-full gap-3 mb-6">
-            <div className="w-full h-1 rounded-full bg-black" />
-            <div className="min-w-max">{renderActionType()}</div>
-            <div className="w-full h-1 rounded-full bg-black" />
-          </div>
+          <h2 className="font-bold text-4xl uppercase">
+            {currAction.name} <span className="lowercase">x</span>
+            {currAction.repetition}
+          </h2>
+          {renderActionType()}
           {!!currAction.workoutTime && (
             <Button onClick={handlePauseTimer} variant={"default"}>
               {goTimer ? <Pause /> : <Play />}

@@ -3,6 +3,7 @@ import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { GoWorkoutProvider } from "@/providers/GoWorkoutProvider";
+import { WorkoutAnalytic } from "@prisma/client";
 
 export default async function Page({
   params: { workoutId },
@@ -11,13 +12,36 @@ export default async function Page({
 }) {
   const session = await auth();
 
-  const workout = await prisma.workout.findUnique({
+  const initWorkout = await prisma.workout.findUnique({
     where: {
       id: workoutId,
     },
-    include: {
+    select: {
+      id: true,
+      archived: true,
+      name: true,
+      users: true,
       series: {
-        include: { exercises: { orderBy: { rank: "asc" } } },
+        select: {
+          break: true,
+          id: true,
+          rank: true,
+          repetition: true,
+          exercises: {
+            select: {
+              bonus: true,
+              break: true,
+              distance: true,
+              id: true,
+              name: true,
+              rank: true,
+              repetition: true,
+              weight: true,
+              workoutTime: true,
+            },
+            orderBy: { rank: "asc" },
+          },
+        },
         orderBy: { rank: "asc" },
       },
     },
@@ -25,8 +49,13 @@ export default async function Page({
   const streak = await prisma.streak.findFirst({
     where: { userId: session?.user.id },
   });
+  const analytic = await prisma.analytic.findFirst({
+    where: {
+      userId: session?.user.id,
+    },
+  });
 
-  if (!workout) {
+  if (!initWorkout) {
     return (
       <ToastError
         message="Aucune séance n'a été trouvé"
@@ -35,8 +64,17 @@ export default async function Page({
       />
     );
   }
+  if (!analytic) {
+    return (
+      <ToastError
+        message="Aucune analytic n'a été trouvé"
+        statusCode={404}
+        redirectTo="/workout"
+      />
+    );
+  }
 
-  if (!workout.users.includes(session?.user.id!)) {
+  if (!initWorkout.users.includes(session?.user.id!)) {
     return (
       <ToastError
         message={"Tu n'as pas accès à cette séance"}
@@ -46,28 +84,28 @@ export default async function Page({
     );
   }
 
-  const cleanWorkout: object[] = [];
+  const refactoWorkout: object[] = [];
 
-  workout.series.forEach((serie) => {
-    serie.exercises.forEach((exercise, i) => {
+  initWorkout.series.map((serie) => {
+    serie.exercises.map((exercise, i) => {
       for (let j = 0; j < serie.repetition; j++) {
-        cleanWorkout.push(exercise);
+        refactoWorkout.push(exercise);
         if (serie.exercises.length - 1 <= i) {
-          if (j >= serie.repetition - 1) {
-            continue;
-          }
-          cleanWorkout.push({ isBreak: true, break: serie.break });
+          refactoWorkout.push({ isBreak: true, break: serie.break });
         } else {
-          cleanWorkout.push({ isBreak: true, break: exercise.break });
+          refactoWorkout.push({ isBreak: true, break: exercise.break });
         }
       }
     });
   });
 
+  refactoWorkout.pop();
+
   return (
     <GoWorkoutProvider
-      cleanWorkout={cleanWorkout}
-      initWorkout={workout}
+      refactoWorkout={refactoWorkout}
+      initWorkout={initWorkout as unknown as WorkoutAnalytic}
+      analyticId={analytic.id}
       session={session}
       streakId={streak?.id ?? ""}
     >

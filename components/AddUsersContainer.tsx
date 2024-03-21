@@ -4,6 +4,12 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import AddUsers from "./AddUsers";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+  AccordionTrigger,
+} from "./ui/accordion";
 
 const AddUsersContainer = async ({ workoutId }: { workoutId: string }) => {
   const session = await auth();
@@ -49,12 +55,21 @@ const AddUsersContainer = async ({ workoutId }: { workoutId: string }) => {
 
     return (
       <div className="flex-1">
-        <AddUsers
-          userId={session.user.id}
-          workoutId={workoutId}
-          usersToAdd={usersToAdd}
-          usersInWorkout={usersInWorkout}
-        />
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger className="font-oswald uppercase text-xl">
+              Ajouter des utilisateurs
+            </AccordionTrigger>
+            <AccordionContent>
+              <AddUsers
+                userId={session.user.id}
+                workoutId={workoutId}
+                usersToAdd={usersToAdd}
+                usersInWorkout={usersInWorkout}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     );
   } else {

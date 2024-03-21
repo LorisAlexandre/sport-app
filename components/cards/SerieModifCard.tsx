@@ -20,6 +20,7 @@ export const SerieModifCard = () => {
         <span>
           x{" "}
           <input
+            onFocus={(e) => e.target.select()}
             onChange={(e) =>
               handleChangeSerie("repetition", Number(e.target.value))
             }
@@ -35,6 +36,7 @@ export const SerieModifCard = () => {
         <div>
           <span>
             <input
+              onFocus={(e) => e.target.select()}
               min={0}
               className="w-9"
               type="number"
@@ -50,6 +52,7 @@ export const SerieModifCard = () => {
           </span>{" "}
           <span>
             <input
+              onFocus={(e) => e.target.select()}
               min={0}
               className="w-9"
               type="number"

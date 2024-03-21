@@ -158,25 +158,41 @@ model Streak {
 model Analytic {
   id String @id @default(cuid()) @map("_id")
 
-  workout Workouts[]
+  workoutAnalytic WorkoutAnalytic[]
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-type Workouts {
-  photo photo?
-  notes String?
+type WorkoutAnalytic {
+  id       String
+  name     String
+  archived Boolean
+  
+  notes    String?
+  createdAt DateTime @default(now())
 
-  name     String?
-  userId   String
-  archived Boolean  @default(false)
-  series   String[]
-
-  date DateTime?
+  series SerieAnalytic[]
 }
 
-type photo {
-  url      String?
-  publicId String?
+type SerieAnalytic {
+  id         String
+  break      Int
+  repetition Int
+  exercises  ExerciseAnalytics[]
+  rank       Int
+}
+
+type ExerciseAnalytics {
+  id          String
+  name        String
+  repetition  Int?
+  workoutTime Int?
+  break       Int
+  distance    Int?
+  weight      Int?
+  bonus       bonus
+  rank        Int?
+  isDone      Boolean
+  isBonusDone Boolean? @default(false)
 }

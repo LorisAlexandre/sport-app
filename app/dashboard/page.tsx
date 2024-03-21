@@ -1,9 +1,16 @@
+import { MyGuestAnalytics } from "@/components/Analytics";
 import WeekSchedule from "@/components/WeekSchedule";
-import { ToastError } from "@/components/ui";
+import { Button, ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
-export default async function Page() {
+export default async function Page({
+  searchParams: { finish },
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const session = await auth();
 
   if (session?.user.plan === "None") {
@@ -16,5 +23,21 @@ export default async function Page() {
     },
   });
 
-  return <div>{streak && <WeekSchedule {...streak} />}</div>;
+  return (
+    <div className="flex flex-col gap-8">
+      {finish === "true" && (
+        <ToastError message="Félicitation" statusCode={0} />
+      )}
+      {streak && <WeekSchedule {...streak} />}
+      <Button className="w-full">
+        <Link
+          className="font-oswald uppercase font-normal text-2xl w-full flex items-center justify-between"
+          href={`/dashboard/${session?.user.email}`}
+        >
+          Mes analyses <ChevronRight size={32} />
+        </Link>
+      </Button>
+      {session?.user.plan === "Coach" && <MyGuestAnalytics />}
+    </div>
+  );
 }

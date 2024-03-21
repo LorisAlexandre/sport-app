@@ -33,6 +33,11 @@ export const { handlers, auth } = NextAuth({
           userId,
         },
       });
+      await prisma.analytic.create({
+        data: {
+          userId,
+        },
+      });
     },
     async signIn(session) {
       const currUser = session.user;

@@ -1,8 +1,7 @@
 "use client";
 
-import { Workout } from "@/lib/db";
 import { CustomResponse } from "@/lib/types/apiRes";
-import { Streak } from "@prisma/client";
+import { Analytic, Streak, WorkoutAnalytic } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import {
   Dispatch,
@@ -17,8 +16,8 @@ import { useErrorProvider } from "./ErrorProvider";
 import { Session } from "next-auth";
 
 export interface GoWorkoutContextType {
-  workoutProps: Workout | undefined;
-  setWorkoutProps: Dispatch<SetStateAction<Workout>> | undefined;
+  cleanWorkout: WorkoutAnalytic | undefined;
+  setCleanWorkout: Dispatch<SetStateAction<WorkoutAnalytic>> | undefined;
   workout: any[] | undefined;
   setWorkout: Dispatch<SetStateAction<any[]>> | undefined;
   currAction: any | undefined;
@@ -33,13 +32,16 @@ export interface GoWorkoutContextType {
   setWorkoutPause: Dispatch<SetStateAction<boolean>> | undefined;
   session: Session | null | undefined;
   streakId: Streak["id"] | undefined;
+  analyticId: Analytic["id"] | undefined;
+  suggestBonus: boolean | undefined;
+  setSuggestBonus: Dispatch<SetStateAction<boolean>> | undefined;
 }
 
 export const GoWorkoutContext = createContext<GoWorkoutContextType>({
   workout: undefined,
   setWorkout: undefined,
-  workoutProps: undefined,
-  setWorkoutProps: undefined,
+  cleanWorkout: undefined,
+  setCleanWorkout: undefined,
   timer: undefined,
   setTimer: undefined,
   next: undefined,
@@ -52,14 +54,17 @@ export const GoWorkoutContext = createContext<GoWorkoutContextType>({
   setWorkoutPause: undefined,
   session: undefined,
   streakId: undefined,
+  analyticId: undefined,
+  suggestBonus: undefined,
+  setSuggestBonus: undefined,
 });
 
 export const useGoWorkoutContext = () => {
   const {
     workout,
     setWorkout,
-    workoutProps,
-    setWorkoutProps,
+    cleanWorkout,
+    setCleanWorkout,
     currAction,
     setCurrAction,
     timer,
@@ -72,6 +77,9 @@ export const useGoWorkoutContext = () => {
     setWorkoutPause,
     session,
     streakId,
+    analyticId,
+    suggestBonus,
+    setSuggestBonus,
   } = useContext(GoWorkoutContext);
   const { handleRedirect, setMessage, setStatusCode } = useErrorProvider();
   const router = useRouter();
@@ -82,11 +90,11 @@ export const useGoWorkoutContext = () => {
   if (setWorkout === undefined) {
     throw new Error("setWorkout is not defined");
   }
-  if (workoutProps === undefined) {
-    throw new Error("workoutProps is not defined");
+  if (cleanWorkout === undefined) {
+    throw new Error("cleanWorkout is not defined");
   }
-  if (setWorkoutProps === undefined) {
-    throw new Error("setWorkoutProps is not defined");
+  if (setCleanWorkout === undefined) {
+    throw new Error("setCleanWorkout is not defined");
   }
   if (currAction === undefined) {
     throw new Error("currAction is not defined");
@@ -124,9 +132,29 @@ export const useGoWorkoutContext = () => {
   if (streakId === undefined) {
     throw new Error("streakId is not defined");
   }
+  if (analyticId === undefined) {
+    throw new Error("analyticId is not defined");
+  }
+  if (suggestBonus === undefined) {
+    throw new Error("suggestBonus is not defined");
+  }
+  if (setSuggestBonus === undefined) {
+    throw new Error("setSuggestBonus is not defined");
+  }
 
   const handleGoNext = () => {
+    const exoDone = cleanWorkout.series
+      .map((s) => {
+        return s.exercises.find((e) => e.id === currAction.id);
+      })
+      .filter((e) => !!e)[0];
+
+    if (!!exoDone) {
+      exoDone.isDone = true;
+    }
+
     setGoTimer(false);
+    setSuggestBonus(false);
     const restWorkout = [...workout];
 
     restWorkout.shift();
@@ -135,6 +163,9 @@ export const useGoWorkoutContext = () => {
 
     if (!!restWorkout[0].workoutTime) {
       setTimer(restWorkout[0].workoutTime);
+    }
+    if (restWorkout[0].isBreak) {
+      setGoTimer(true);
     }
 
     if (restWorkout.length > 1) {
@@ -159,6 +190,16 @@ export const useGoWorkoutContext = () => {
   };
 
   const handleWorkoutEnd = async () => {
+    const exoDone = cleanWorkout.series
+      .map((s) => {
+        return s.exercises.find((e) => e.id === currAction.id);
+      })
+      .filter((e) => !!e)[0];
+
+    if (!!exoDone) {
+      exoDone.isDone = true;
+    }
+
     const res = await fetch(`/api/streak/update/${streakId}`, {
       method: "PATCH",
       headers: {
@@ -166,8 +207,24 @@ export const useGoWorkoutContext = () => {
       } as RequestInit["headers"],
       body: JSON.stringify({ todayCount: true }),
     });
+    const res2 = await fetch(
+      `/api/analytic/updateWorkoutAnalytic/${analyticId}`,
+      {
+        method: "PATCH",
+        headers: {
+          userId: session?.user.id,
+        } as RequestInit["headers"],
+        body: JSON.stringify(cleanWorkout),
+      }
+    );
 
     try {
+      const {
+        result: analyticResult,
+        data: analyticData,
+        message: analyticMessage,
+        redirectTo: analyticRedirectTo,
+      } = (await res2.json()) as CustomResponse<Analytic>;
       const { result, data, message, redirectTo } =
         (await res.json()) as CustomResponse<Streak>;
 
@@ -177,10 +234,18 @@ export const useGoWorkoutContext = () => {
         redirectTo && handleRedirect(redirectTo);
         return;
       }
-      router.push("/dashboard");
+
+      if (!analyticResult || !analyticData) {
+        setMessage(analyticMessage);
+        setStatusCode(res2.status);
+        analyticRedirectTo && handleRedirect(analyticRedirectTo);
+        return;
+      }
+
+      router.push("/dashboard?finish=true");
     } catch (error) {
       setMessage(String(error));
-      setStatusCode(res.status);
+      setStatusCode(res.status === 200 ? res2.status : res.status);
     }
   };
 
@@ -189,11 +254,37 @@ export const useGoWorkoutContext = () => {
     handlePauseTimer();
   };
 
+  const handleSuggestBonus = () => {
+    setSuggestBonus(!suggestBonus);
+  };
+
+  const handleAddBonus = () => {
+    const exoDoneWithBonus = cleanWorkout.series
+      .map((s) => {
+        return s.exercises.find((e) => e.id === currAction.id);
+      })
+      .filter((e) => !!e)[0];
+
+    if (!!exoDoneWithBonus) {
+      exoDoneWithBonus.isDone = true;
+      exoDoneWithBonus.isBonusDone = true;
+    }
+
+    if (currAction.bonus.exerciseProp === "workoutTime") {
+      setTimer(timer + currAction.bonus.toAchieved);
+    }
+  };
+
   useEffect(() => {
     if (goTimer) {
       const time = setTimeout(() => {
-        if (timer <= 0) {
-          handleGoNext();
+        setTimer(0);
+        if (timer <= 0 || timer === 0) {
+          if (currAction.isBreak) {
+            handleGoNext();
+          } else {
+            setSuggestBonus(true);
+          }
         } else {
           setTimer(timer - 1000);
         }
@@ -201,50 +292,56 @@ export const useGoWorkoutContext = () => {
 
       return () => clearTimeout(time);
     }
-  }, [timer]);
+  }, [timer, goTimer]);
 
   return {
     workout,
-    workoutProps,
+    cleanWorkout,
     currAction,
     timer,
     next,
     goTimer,
     workoutPause,
+    suggestBonus,
     handleGoNext,
     handleWorkoutEnd,
     handleStartTimer,
     handlePauseTimer,
     handleWorkoutPause,
+    handleAddBonus,
   };
 };
 
 export const GoWorkoutProvider = ({
   children,
-  cleanWorkout,
+  refactoWorkout,
   initWorkout,
   session,
   streakId,
+  analyticId,
 }: {
   children: ReactNode;
-  cleanWorkout: any[];
-  initWorkout: Workout;
+  refactoWorkout: any[];
+  initWorkout: WorkoutAnalytic;
   session: Session | null;
   streakId: Streak["id"];
+  analyticId: Analytic["id"];
 }) => {
-  const [workoutProps, setWorkoutProps] = useState<Workout>(initWorkout);
-  const [workout, setWorkout] = useState<any[]>(cleanWorkout);
-  const [currAction, setCurrAction] = useState<any>(cleanWorkout[0]);
-  const [next, setNext] = useState<object>(cleanWorkout[1] ?? null);
+  const [cleanWorkout, setCleanWorkout] =
+    useState<WorkoutAnalytic>(initWorkout);
+  const [workout, setWorkout] = useState<any[]>(refactoWorkout);
+  const [currAction, setCurrAction] = useState<any>(refactoWorkout[0]);
+  const [next, setNext] = useState<object>(refactoWorkout[1] ?? null);
   const [goTimer, setGoTimer] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(currAction.workoutTime ?? 0);
   const [workoutPause, setWorkoutPause] = useState(false);
+  const [suggestBonus, setSuggestBonus] = useState(false);
 
   const contextValue: GoWorkoutContextType = {
     workout,
     setWorkout,
-    workoutProps,
-    setWorkoutProps,
+    cleanWorkout,
+    setCleanWorkout,
     timer,
     setTimer,
     next,
@@ -257,6 +354,9 @@ export const GoWorkoutProvider = ({
     setWorkoutPause,
     session,
     streakId,
+    analyticId,
+    suggestBonus,
+    setSuggestBonus,
   };
 
   return (

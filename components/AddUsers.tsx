@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useErrorProvider } from "@/providers/ErrorProvider";
 import { CustomResponse } from "@/lib/types/apiRes";
 import { Workout } from "@/lib/db";
+import { XCircle, UserRoundX } from "lucide-react";
 
 const AddUsers = ({
   usersInWorkout,
@@ -83,61 +84,65 @@ const AddUsers = ({
   return (
     <div className="flex flex-col justify-between gap-2">
       <div>
-        <p className="underline">Ajout utilisateur</p>
+        <p className="">Ajout utilisateur</p>
         <div className="flex flex-wrap gap-2">
-          {!!possibleUsers.length
-            ? possibleUsers.map((u, i) => (
-                <Button
-                  onClick={() => handleAddUser(u.id)}
-                  className="h-fit flex flex-col justify-center items-center"
-                  key={i}
-                >
-                  <Image
-                    className="rounded-full"
-                    alt="user image"
-                    src={u.image ?? ""}
-                    width={35}
-                    height={35}
-                  />
-                  <p>
-                    {u.name?.split(" ")[0]} {u.name?.split(" ")[1][0]}.
-                  </p>
-                </Button>
-              ))
-            : "Aucun utilisateur à ajouter"}
+          {!!possibleUsers.length ? (
+            possibleUsers.map((u, i) => (
+              <Button
+                onClick={() => handleAddUser(u.id)}
+                className="h-fit flex flex-col justify-center items-center"
+                key={i}
+              >
+                <Image
+                  className="rounded-full"
+                  alt="user image"
+                  src={u.image ?? ""}
+                  width={35}
+                  height={35}
+                />
+                <p>
+                  {u.name?.split(" ")[0]} {u.name?.split(" ")[1][0]}.
+                </p>
+              </Button>
+            ))
+          ) : (
+            <UserRoundX />
+          )}
         </div>
       </div>
       <div>
-        <p className="underline">Utilisateur ayant accès à la séance</p>
+        <p className="">Utilisateur ayant accès à la séance</p>
         <div className="flex flex-wrap gap-2">
-          {usersIn.length > 1
-            ? usersIn.map((u, i) => {
-                if (typeof u !== "string") {
-                  return (
-                    <Button
-                      onClick={() => handleRemoveUser(u.id)}
-                      className="relative h-fit flex flex-col justify-center items-center"
-                      key={i}
-                    >
-                      <Image
-                        className="rounded-full"
-                        alt="user image"
-                        src={u.image ?? ""}
-                        width={35}
-                        height={35}
-                      />
-                      <p>
-                        {u.name?.split(" ")[0]} {u.name?.split(" ")[1][0]}.
-                      </p>
-                    </Button>
-                  );
-                }
-                return;
-              })
-            : "Aucun utilisateur n'a accès"}
+          {usersIn.length > 1 ? (
+            usersIn.map((u, i) => {
+              if (typeof u !== "string") {
+                return (
+                  <Button
+                    onClick={() => handleRemoveUser(u.id)}
+                    className="relative h-fit flex flex-col justify-center items-center"
+                    key={i}
+                  >
+                    <Image
+                      className="rounded-full"
+                      alt="user image"
+                      src={u.image ?? ""}
+                      width={35}
+                      height={35}
+                    />
+                    <p>
+                      {u.name?.split(" ")[0]} {u.name?.split(" ")[1][0]}.
+                    </p>
+                  </Button>
+                );
+              }
+              return;
+            })
+          ) : (
+            <UserRoundX />
+          )}
         </div>
       </div>
-      <Button onClick={handleSaveUsers} variant={"default"}>
+      <Button className="mt-2" onClick={handleSaveUsers} variant={"default"}>
         Save
       </Button>
     </div>

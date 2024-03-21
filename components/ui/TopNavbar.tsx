@@ -7,6 +7,7 @@ import { CustomResponse } from "@/lib/types/apiRes";
 import { Workout } from "@prisma/client";
 import { useErrorProvider } from "@/providers/ErrorProvider";
 import { Session } from "next-auth";
+import { Plus } from "lucide-react";
 
 export const TopNavbar = ({ session }: { session: Session | null }) => {
   const { setMessage, setStatusCode, handleRedirect } = useErrorProvider();
@@ -68,6 +69,20 @@ export const TopNavbar = ({ session }: { session: Session | null }) => {
     return baseline;
   };
 
+  const renderAddWorkout = () => {
+    let addW = null;
+
+    if (session?.user.plan === "Coach" || session?.user.plan === "Premium") {
+      addW = (
+        <Button className="bg-white" onClick={handleCreateWorkout}>
+          <Plus size={35} />
+        </Button>
+      );
+    }
+
+    return addW;
+  };
+
   return (
     <div className="w-full flex justify-between">
       <div>
@@ -76,25 +91,7 @@ export const TopNavbar = ({ session }: { session: Session | null }) => {
         </h1>
         <p className="uppercase text-xs">{baselineChoice()}</p>
       </div>
-      {url === "/workout" && (
-        <Button className="bg-white" onClick={handleCreateWorkout}>
-          <svg
-            width="25"
-            height="24"
-            viewBox="0 0 25 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2.29167 12H22.7083M12.5 1.79166V22.2083"
-              stroke="#09090B"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </Button>
-      )}
+      {url === "/workout" && <>{renderAddWorkout()}</>}
     </div>
   );
 };

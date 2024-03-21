@@ -41,7 +41,7 @@ export default async function Page() {
     return (
       <div className="flex flex-col gap-6">
         {!!data.length
-          ? data.map((w) => <WorkoutCard {...w} key={w.id} />)
+          ? data.map((w) => <WorkoutCard session={session} {...w} key={w.id} />)
           : "No workouts yet"}
       </div>
     );

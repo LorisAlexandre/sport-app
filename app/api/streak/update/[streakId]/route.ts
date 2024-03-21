@@ -31,10 +31,6 @@ export const PATCH = async (
     },
     data: {
       weekSchema: body.weekSchema,
-      currentStreak: body.currentStreak,
-      lastDateCount: body.lastDateCount,
-      longuestStreak: body.longuestStreak,
-      nextDateCount: body.nextDateCount,
       todayCount: body.todayCount,
     },
   });

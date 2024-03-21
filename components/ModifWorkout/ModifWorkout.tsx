@@ -15,9 +15,10 @@ export const ModifWorkout = () => {
       <div className="flex justify-between items-center gap-4 pb-10">
         <div className="flex gap-4 items-center">
           <Link href={"/workout"}>
-            <ArrowLeft size={30} onClick={handleSaveWorkout} />
+            <ArrowLeft size={30} />
           </Link>
           <input
+            onFocus={(e) => e.target.select()}
             type="text"
             value={workout.name}
             onChange={(e) =>
