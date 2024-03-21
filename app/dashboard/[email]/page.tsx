@@ -7,10 +7,10 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 export default async function Page({
-  params: { name },
+  params: { email },
   searchParams: { date, workoutName },
 }: {
-  params: { name: string };
+  params: { email: string };
   searchParams: { date: string; workoutName: string };
 }) {
   const session = await auth();
@@ -25,7 +25,7 @@ export default async function Page({
     );
   }
 
-  if (session.user.email !== name.replace("%40", "@")) {
+  if (session.user.email !== email.replace("%40", "@")) {
     if (session.user.plan !== "Coach") {
       return (
         <ToastError
@@ -39,7 +39,7 @@ export default async function Page({
 
   const me = await prisma.user.findFirst({
     where: {
-      email: name.replace("%40", "@"),
+      email: email.replace("%40", "@"),
     },
     select: {
       id: true,
