@@ -16,14 +16,14 @@ export const GetTestimonials = () => {
   return (
     <div className="flex flex-col gap-2">
       <h2 className="uppercase text-xl">
-        Laisse moi savoir ce que tu penses de l'app !
+        Laisse moi savoir ce que tu penses de l&apos;app !
       </h2>
       <div className="flex items-center justify-between">
         <label
           htmlFor="terms"
           className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Être mis en avant sur la page d'acceuil
+          Être mis en avant sur la page d&apos;acceuil
         </label>
         <input
           id="terms"

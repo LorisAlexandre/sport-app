@@ -57,7 +57,7 @@ const AddUsersContainer = async ({ workoutId }: { workoutId: string }) => {
       <div className="flex-1">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="font-oswald uppercase text-xl">
+            <AccordionTrigger className="font-oswald uppercase text-xl [&_svg]:size-8">
               Ajouter des utilisateurs
             </AccordionTrigger>
             <AccordionContent>

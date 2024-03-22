@@ -63,38 +63,18 @@ export const WorkoutCard = (props: Workout & { session: Session | null }) => {
           {renderModifWorkout()}
         </div>
       </CardHeader>
-      <CardContent className="justify-center">
-        <div className="flex justify-between items-center">
+      <CardContent className="justify-center pb-0">
+        <div className="flex justify-between items-center font-medium">
           <p>Série {props.series[0]?.rank}</p>
           <p>x {props.series[0]?.repetition}</p>
         </div>
-        <div>
+        <div className="px-2">
           <p>{props.series[0]?.exercises[0]?.name ?? "No name"}</p>
           <div className="flex justify-between items-center">
             <p>Répétitions :</p>
             <p>{props.series[0]?.exercises[0]?.repetition ?? 0}</p>
           </div>
-          <div className="flex justify-between items-center">
-            <p>Repos :</p>
-            <div className="flex gap-1">
-              <p>
-                {!!formatTime(props.series[0]?.exercises[0]?.break ?? 0)
-                  .minutes && (
-                  <>
-                    {String(
-                      formatTime(props.series[0]?.exercises[0]?.break ?? 0)
-                        .minutes
-                    ).padStart(2, "0")}{" "}
-                    &quot;{" "}
-                  </>
-                )}
-                {String(
-                  formatTime(props.series[0]?.exercises[0]?.break ?? 0).seconds
-                ).padStart(2, "0")}{" "}
-                &apos;
-              </p>
-            </div>
-          </div>
+          <p>...</p>
         </div>
       </CardContent>
       {renderCardFooter()}

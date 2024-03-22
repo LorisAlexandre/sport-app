@@ -1,4 +1,5 @@
 import { MyGuestAnalytics } from "@/components/Analytics";
+import { MyStreak } from "@/components/MyStreak";
 import WeekSchedule from "@/components/WeekSchedule";
 import { Button, ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
@@ -29,6 +30,7 @@ export default async function Page({
         <ToastError message="Félicitation" statusCode={0} />
       )}
       {streak && <WeekSchedule {...streak} />}
+      {streak && <MyStreak {...streak} />}
       <Button className="w-full">
         <Link
           className="font-oswald uppercase font-normal text-2xl w-full flex items-center justify-between"

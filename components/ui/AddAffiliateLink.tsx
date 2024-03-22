@@ -43,7 +43,7 @@ export const AddAffiliateLink = ({ userId }: { userId: string }) => {
   return (
     <div>
       <h2 className="uppercase text-xl">
-        Tu es coaché ? Rentres le lien d'affiliation ici !
+        Tu es coaché ? Rentres le lien d&apos;affiliation ici !
       </h2>
       <div className="flex gap-4">
         <input
