@@ -53,7 +53,7 @@ export const BuyButton = ({ session }: { session: Session | null }) => {
 
   return (
     <Button variant={"default"} onClick={handleCheckoutSession}>
-      Buy
+      Get SPORT-APP
     </Button>
   );
 };

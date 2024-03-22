@@ -3,12 +3,12 @@
 import { signOut } from "next-auth/react";
 import { Button } from ".";
 
-export const LogoutButton = () => {
+export const LogoutButton = ({ className }: { className?: string }) => {
   return (
     <Button
       variant={"default"}
       size={"lg"}
-      className="uppercase text-2xl w-full"
+      className={`${className} uppercase text-2xl w-full`}
       onClick={() => signOut()}
     >
       Se déconnecter
