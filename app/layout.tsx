@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import {
   AddAffiliateLink,
+  Logo,
   LogoutButton,
   Navbar,
   TopNavbar,
@@ -48,7 +49,10 @@ export default async function RootLayout({
           )}
         >
           <ErrorProvider>
-            {!!session && <TopNavbar session={session} />}
+            <div className="flex items-center gap-10">
+              <Logo />
+              {!!session && <TopNavbar session={session} />}
+            </div>
             {session?.user.plan === "None" ? (
               <>
                 <AddAffiliateLink userId={session.user.id} />
