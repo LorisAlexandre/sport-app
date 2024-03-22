@@ -29,8 +29,10 @@ export default async function Page({
       {finish === "true" && (
         <ToastError message="Félicitation" statusCode={0} />
       )}
-      {streak && <WeekSchedule {...streak} />}
-      {streak && <MyStreak {...streak} />}
+      <div className="flex flex-col sm:flex-row gap-4">
+        {streak && <WeekSchedule {...streak} />}
+        {streak && <MyStreak {...streak} />}
+      </div>
       <Button className="w-full">
         <Link
           className="font-oswald uppercase font-normal text-2xl w-full flex items-center justify-between"
