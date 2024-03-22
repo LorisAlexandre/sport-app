@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(
       {
         result: false,
-        redirectTo: "http://localhost:3000#pricing",
+        redirectTo: "/#pricing",
         message: "Your plan doesn't allow you to do that",
       },
       { status: 401 }
