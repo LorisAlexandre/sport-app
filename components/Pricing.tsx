@@ -46,7 +46,7 @@ const Pricing = ({ session }: { session: Session | null }) => {
             </li>
             <li className="flex items-center gap-2">
               <Check />
-              <span>Simple d'utilisation pour les coachés</span>
+              <span>Simple d&apos;utilisation pour les coachés</span>
             </li>
           </ul>
         </CardContent>

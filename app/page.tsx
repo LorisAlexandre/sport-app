@@ -2,16 +2,20 @@ import AuthCard from "@/components/AuthCard";
 import Pricing from "@/components/Pricing";
 import { Button } from "@/components/ui";
 import { auth } from "@/lib/auth";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await auth();
 
+  if (session?.user) {
+    redirect("/account");
+  }
+
   return (
     <div className="">
-      <Button>
-        <Link href={"/dashboard"}>Dashboard</Link>
-      </Button>
+      <Pricing session={session} />
     </div>
   );
 }
