@@ -32,10 +32,10 @@ export const MyGuestAnalytics = async () => {
   });
 
   return (
-    <Accordion type="single" collapsible className="w-full px-4">
+    <Accordion type="single" collapsible className="w-full px-4 mb-28">
       <AccordionItem value="item-1">
         <AccordionTrigger className="text-2xl uppercase items-center font-normal [&_svg]:w-8 [&_svg]:h-8">
-          Les analises de mes invités
+          Les analyses de mes invités
         </AccordionTrigger>
         <AccordionContent className="flex flex-wrap gap-2">
           {myGuests.length > 1 ? (

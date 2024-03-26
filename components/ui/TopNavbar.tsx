@@ -88,7 +88,7 @@ export const TopNavbar = ({ session }: { session: Session | null }) => {
     <div className="w-full flex justify-between">
       <div>
         <h1 className="font-oswald font-bold text-3xl uppercase">
-          Hi {session?.user?.name}
+          Salut {session?.user?.name}
         </h1>
         <p className="uppercase text-xs">{baselineChoice()}</p>
       </div>

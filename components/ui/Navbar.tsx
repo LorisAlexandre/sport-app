@@ -12,38 +12,38 @@ export const Navbar = () => {
   }
 
   return (
-    <div className="fixed bottom-0 right-0 flex w-full justify-between items-center px-4 py-5 bg-white border border-t-4 border-t-black border-x-0 border-b-0 uppercase text-xl">
+    <div className="fixed bottom-0 right-0 flex w-full justify-between items-center pt-2 bg-white border border-t-4 border-t-black border-x-0 border-b-0 uppercase text-xl">
       <Link
         href={"/workout"}
-        className={`font-oswald font-bold ${
+        className={`font-oswald font-bold flex-1 h-fit text-center ${
           url === "/workout" ? "" : "text-[#505050]"
         }`}
       >
         <div className="flex flex-col items-center">
           <span>💪</span>
-          <span>Workout</span>
+          <span>Séances</span>
         </div>
       </Link>
       <Link
         href={"/dashboard"}
-        className={`font-oswald font-bold ${
+        className={`font-oswald font-bold flex-1 h-fit text-center ${
           url === "/dashboard" ? "" : "text-[#505050]"
         }`}
       >
         <div className="flex flex-col items-center">
           <span>📈</span>
-          <span>Dashboard</span>
+          <span>Tableau de bord</span>
         </div>
       </Link>
       <Link
         href={"/account"}
-        className={`font-oswald font-bold ${
+        className={`font-oswald font-bold flex-1 h-fit text-center ${
           url === "/account" ? "" : "text-[#505050]"
         }`}
       >
         <div className="flex flex-col items-center">
           <span>⚙</span>
-          <span>Account</span>
+          <span>Mon compte</span>
         </div>
       </Link>
     </div>

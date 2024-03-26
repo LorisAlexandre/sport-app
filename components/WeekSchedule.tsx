@@ -2,12 +2,14 @@
 
 import { Streak } from "@prisma/client";
 import { Button } from "./ui";
-import { Check } from "lucide-react";
+import { Check, Save } from "lucide-react";
 import { useState } from "react";
 import { CustomResponse } from "@/lib/types/apiRes";
 import { useErrorProvider } from "@/providers/ErrorProvider";
+import { useRouter } from "next/navigation";
 
 const WeekSchedule = ({ weekSchema, userId, id: streakId }: Streak) => {
+  const router = useRouter();
   const { setMessage, setStatusCode, handleRedirect } = useErrorProvider();
   const days = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
   const [weekSchedule, setWeekSchedule] = useState(weekSchema);
@@ -41,6 +43,7 @@ const WeekSchedule = ({ weekSchema, userId, id: streakId }: Streak) => {
       }
 
       setWeekSchedule(data.weekSchema);
+      router.refresh();
     } catch (error) {
       setMessage(String(error));
       setStatusCode(res.status);
@@ -73,8 +76,13 @@ const WeekSchedule = ({ weekSchema, userId, id: streakId }: Streak) => {
     <div className="flex-1 flex flex-col px-8 py-4 rounded-xl border justify-center">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl uppercase">Mon planning hebdo</h1>
-        <Button onClick={handleSaveWeekSchema} variant={"default"}>
-          Save
+        <Button
+          className="flex items-center gap-2"
+          onClick={handleSaveWeekSchema}
+          variant={"default"}
+        >
+          Sauvegarder
+          <Save />
         </Button>
       </div>
       <div className="flex gap-4 flex-wrap justify-center">{renderWeek()}</div>

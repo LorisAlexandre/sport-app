@@ -72,7 +72,7 @@ export default async function Page({
 
   if (!date || !workoutName) {
     return (
-      <div>
+      <div className="mb-4">
         <div className="flex items-center justify-between mb-6">
           <Button>
             <Link href={"/dashboard"}>

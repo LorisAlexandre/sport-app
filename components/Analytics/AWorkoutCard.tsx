@@ -34,7 +34,7 @@ export const AWorkoutCard = (workout: WorkoutAnalytic) => {
         <Button variant={"default"}>
           <Link
             className="flex items-center gap-3"
-            href={`/dashboard/${params.name}?date=${formatDate(
+            href={`/dashboard/${params.email}?date=${formatDate(
               workout.createdAt,
               "-"
             )}&workoutName=${workout.name}`}

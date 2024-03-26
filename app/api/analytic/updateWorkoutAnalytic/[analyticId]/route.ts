@@ -12,7 +12,14 @@ export const PATCH = async (
     archived: body.archived,
     id: body.id,
     name: body.name,
-    series: body.series,
+    series: body.series.map((s) => ({
+      ...s,
+      exercises: s.exercises.map((e) => ({
+        ...e,
+        isBonusDone: e.isBonusDone ?? false,
+        isDone: e.isDone ?? false,
+      })),
+    })),
     createdAt: new Date(),
     notes: null,
   };

@@ -40,7 +40,7 @@ export default async function Page() {
     }
 
     return (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 mb-28">
         {!!data.length ? (
           data.map((w) => <WorkoutCard session={session} {...w} key={w.id} />)
         ) : (
