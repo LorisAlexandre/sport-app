@@ -5,9 +5,11 @@ import { Button } from ".";
 import { useErrorProvider } from "@/providers/ErrorProvider";
 import { CustomResponse } from "@/lib/types/apiRes";
 import { User } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 export const AddAffiliateLink = ({ userId }: { userId: string }) => {
   const [affLink, setAffLink] = useState("");
+  const router = useRouter();
   const { setMessage, handleRedirect, setStatusCode } = useErrorProvider();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +35,7 @@ export const AddAffiliateLink = ({ userId }: { userId: string }) => {
         redirectTo && handleRedirect(redirectTo);
         return;
       }
-      window.location.reload();
+      router.refresh();
     } catch (error) {
       setMessage(String(error));
       setStatusCode(res.status);

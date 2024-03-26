@@ -11,3 +11,4 @@ export { AffiliateLink } from "./AffiliateLink";
 export { AddAffiliateLink } from "./AddAffiliateLink";
 export { CopyButton } from "./CopyButton";
 export { ShowMyCoach } from "./ShowMyCoach";
+export { InputTime } from "./InputTime";

@@ -1,8 +1,9 @@
 import { WorkoutCard } from "@/components/cards";
-import { ToastError } from "@/components/ui";
+import { Button, ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { CustomResponse } from "@/lib/types/apiRes";
 import { Workout } from "@/lib/db";
+import { Plus } from "lucide-react";
 
 export default async function Page() {
   const session = await auth();
@@ -40,9 +41,13 @@ export default async function Page() {
 
     return (
       <div className="flex flex-col gap-6">
-        {!!data.length
-          ? data.map((w) => <WorkoutCard session={session} {...w} key={w.id} />)
-          : "No workouts yet"}
+        {!!data.length ? (
+          data.map((w) => <WorkoutCard session={session} {...w} key={w.id} />)
+        ) : (
+          <span className="text-center">
+            Oups il n&apos;y a aucune séance ! Crées en une !
+          </span>
+        )}
       </div>
     );
   } catch (error) {

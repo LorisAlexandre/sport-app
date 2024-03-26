@@ -49,7 +49,7 @@ export default async function RootLayout({
           )}
         >
           <ErrorProvider>
-            <div className="flex items-center gap-10">
+            <div className="flex items-center gap-5">
               <Logo />
               {!!session && <TopNavbar session={session} />}
             </div>

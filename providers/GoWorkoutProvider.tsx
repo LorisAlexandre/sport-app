@@ -173,6 +173,14 @@ export const useGoWorkoutContext = () => {
     } else {
       setNext({ isFinish: true });
     }
+
+    if (restWorkout[0].isBreak) {
+      if (!!navigator.vibrate) {
+        navigator.vibrate(1000);
+      } else {
+        alert("Désolé votre navigateur ne prend pas en compte les vibrations");
+      }
+    }
   };
 
   const handleStartTimer = () => {
@@ -254,10 +262,6 @@ export const useGoWorkoutContext = () => {
     handlePauseTimer();
   };
 
-  const handleSuggestBonus = () => {
-    setSuggestBonus(!suggestBonus);
-  };
-
   const handleAddBonus = () => {
     const exoDoneWithBonus = cleanWorkout.series
       .map((s) => {
@@ -272,6 +276,18 @@ export const useGoWorkoutContext = () => {
 
     if (currAction.bonus.exerciseProp === "workoutTime") {
       setTimer(timer + currAction.bonus.toAchieved);
+    }
+    if (currAction.bonus.exerciseProp === "weight") {
+      setCurrAction({
+        ...currAction,
+        weight: currAction.weight + currAction.bonus.toAchieved,
+      });
+    }
+    if (currAction.bonus.exerciseProp === "distance") {
+      setCurrAction({
+        ...currAction,
+        distance: currAction.distance + currAction.bonus.toAchieved,
+      });
     }
   };
 

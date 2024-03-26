@@ -12,7 +12,7 @@ export const Logo = async () => {
       className="cursor-pointer text-3xl font-bold"
       href={session?.user ? "/dashboard" : "/"}
     >
-      <Image src={"/icon.svg"} alt="logo app" width={64} height={64} />
+      <Image src={"/icon.png"} priority alt="logo app" width={64} height={64} />
     </Link>
   );
 };

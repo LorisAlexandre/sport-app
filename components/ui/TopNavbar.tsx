@@ -74,8 +74,9 @@ export const TopNavbar = ({ session }: { session: Session | null }) => {
 
     if (session?.user.plan === "Coach" || session?.user.plan === "Premium") {
       addW = (
-        <Button className="bg-white" onClick={handleCreateWorkout}>
-          <Plus size={35} />
+        <Button className="flex gap-2" onClick={handleCreateWorkout}>
+          Séance
+          <Plus size={20} />
         </Button>
       );
     }
