@@ -364,7 +364,7 @@ const ExerciseContent = (exercise: Exercise) => {
       </div>
       <AccordionContent className="flex flex-col gap-3 px-6">
         <div className="flex justify-between items-center">
-          <p className="max-w-40">Nom de l'exercice: </p>
+          <p className="max-w-40">Nom de l&apos;exercice: </p>
           <input
             onFocus={(e) => e.target.select()}
             value={exercise.name}

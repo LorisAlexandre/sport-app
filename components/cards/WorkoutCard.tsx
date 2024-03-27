@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Workout } from "@/lib/db";
-import { formatTime } from "@/lib/functions";
 import AddUsersContainer from "../AddUsersContainer";
 import { Play, PenBox } from "lucide-react";
 import { Session } from "next-auth";
