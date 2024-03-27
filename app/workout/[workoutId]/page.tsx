@@ -1,14 +1,18 @@
+import { GG } from "@/components/GG";
 import { GoWorkout } from "@/components/GoWorkout";
 import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { GoWorkoutProvider } from "@/providers/GoWorkoutProvider";
 import { WorkoutAnalytic } from "@prisma/client";
+import { Divide } from "lucide-react";
 
 export default async function Page({
   params: { workoutId },
+  searchParams: { finish },
 }: {
   params: { workoutId: string };
+  searchParams: { [key: string]: string };
 }) {
   const session = await auth();
 
@@ -109,6 +113,7 @@ export default async function Page({
       session={session}
       streakId={streak?.id ?? ""}
     >
+      {finish && <GG />}
       <GoWorkout />
     </GoWorkoutProvider>
   );

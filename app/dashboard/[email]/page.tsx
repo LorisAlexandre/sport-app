@@ -63,6 +63,7 @@ export default async function Page({
     },
     select: {
       workoutAnalytic: true,
+      id: true,
     },
   });
 
@@ -99,6 +100,12 @@ export default async function Page({
       return <ToastError message="Aucune séance trouvée" statusCode={404} />;
     }
 
-    return <ACompleteWorkout workout={workout} />;
+    return (
+      <ACompleteWorkout
+        workout={workout}
+        session={session}
+        analyticId={analytics?.id ?? ""}
+      />
+    );
   }
 }

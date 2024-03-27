@@ -75,6 +75,12 @@
   }
 }
 
+@layer base {
+  .firework path {
+    stroke-dasharray: 16px;
+  }
+}
+
 * {
   font-family: var(--font-work);
 }

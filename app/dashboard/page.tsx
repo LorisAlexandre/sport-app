@@ -1,4 +1,5 @@
 import { MyGuestAnalytics } from "@/components/Analytics";
+import { GG } from "@/components/GG";
 import { MyStreak } from "@/components/MyStreak";
 import WeekSchedule from "@/components/WeekSchedule";
 import { Button, ToastError } from "@/components/ui";
@@ -21,10 +22,8 @@ export default async function Page({
   });
 
   return (
-    <div className="flex flex-col gap-8 relative">
-      {finish === "true" && (
-        <ToastError message="Félicitation" statusCode={0} />
-      )}
+    <div className="flex flex-col gap-8">
+      {finish === "true" && <GG />}
       <div className="flex flex-col sm:flex-row gap-4">
         {streak && <WeekSchedule {...streak} />}
         {streak && <MyStreak {...streak} />}

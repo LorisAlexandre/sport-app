@@ -84,6 +84,18 @@ const config = {
           from: { top: "10" },
           to: { top: "-100%" },
         },
+        move: {
+          "0%": {
+            strokeWidth: "1",
+          },
+          "50%": {
+            strokeWidth: "3",
+          },
+          "100%": {
+            strokeWidth: "1",
+            strokeDashoffset: "16",
+          },
+        },
       },
       animation: {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
@@ -91,6 +103,7 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "show-from-top": "show-from-top 1s ease-out",
         "unshow-from-top": "unshow-from-top 1s ease-in",
+        move: "move 1.25s ease-out infinite",
       },
     },
   },

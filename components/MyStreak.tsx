@@ -13,11 +13,14 @@ export const MyStreak = (streak: Streak) => {
     <Card className="w-full sm:w-fit">
       {!!streak.weekSchema.length ? (
         <>
-          <CardHeader>
+          <CardHeader className="space-y-0">
             <CardTitle>Ma série de jour</CardTitle>
             <CardDescription>
               Ma plus longue série: {streak.longuestStreak}{" "}
               {streak.longuestStreak < 0 && "🔥"}
+            </CardDescription>
+            <CardDescription className="text-xs">
+              Les séries sont mises à jour le soir vers
             </CardDescription>
           </CardHeader>
           <div className="flex sm:flex-col items-center">

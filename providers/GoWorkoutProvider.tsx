@@ -250,7 +250,7 @@ export const useGoWorkoutContext = () => {
         return;
       }
 
-      router.push("/dashboard?finish=true");
+      router.push(`/workout/${cleanWorkout.id}?finish=true`);
     } catch (error) {
       setMessage(String(error));
       setStatusCode(res.status === 200 ? res2.status : res.status);
@@ -319,6 +319,7 @@ export const useGoWorkoutContext = () => {
     goTimer,
     workoutPause,
     suggestBonus,
+    userEmail: session?.user.email,
     handleGoNext,
     handleWorkoutEnd,
     handleStartTimer,
