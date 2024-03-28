@@ -207,132 +207,7 @@ const ExerciseContent = (exercise: Exercise) => {
     rankDownExercise,
     rankUpExercise,
     handleChangeExercise,
-    handleChangeBonusExercise,
-    exosType,
   } = useUpdateWorkoutContext();
-
-  const [selectedStatus, setSelectedStatus] = useState<exoType | null>(null);
-
-  useEffect(() => {
-    if (selectedStatus?.value === "null" || selectedStatus === null) {
-      handleChangeExercise(exercise.id, "distance", null);
-      handleChangeExercise(exercise.id, "weight", null);
-      handleChangeExercise(exercise.id, "workoutTime", null);
-      handleChangeBonusExercise(exercise.id, "toAchieved", null);
-      handleChangeBonusExercise(exercise.id, "exerciseProp", null);
-    }
-  }, [selectedStatus]);
-
-  const renderExoInput = () => {
-    let type;
-
-    if (selectedStatus === null) return;
-    if (selectedStatus.value === "null") return;
-    if (selectedStatus.value === "distance") {
-      type = (
-        <input
-          type="tel"
-          className="h-10 max-w-fit w-[80%] min-w-[150px] px-1 flex items-center justify-center text-center border border-black/80 rounded-md text-lg"
-          value={exercise.distance ?? 0}
-          min={0}
-          onFocus={(e) => e.target.select()}
-          onChange={(e) => {
-            handleChangeExercise(
-              exercise.id,
-              "distance",
-              Number(e.target.value)
-            );
-            handleChangeExercise(exercise.id, "weight", null);
-            handleChangeExercise(exercise.id, "workoutTime", null);
-          }}
-        />
-      );
-    }
-    if (selectedStatus.value === "weight") {
-      type = (
-        <input
-          className="h-10 w-12 px-1 flex items-center justify-center text-center border border-black/80 rounded-md text-lg"
-          type="tel"
-          value={exercise.weight ?? 0}
-          onFocus={(e) => e.target.select()}
-          min={0}
-          onChange={(e) => {
-            handleChangeExercise(exercise.id, "weight", Number(e.target.value));
-            handleChangeExercise(exercise.id, "distance", null);
-            handleChangeExercise(exercise.id, "workoutTime", null);
-          }}
-        />
-      );
-    }
-    if (selectedStatus.value === "workoutTime") {
-      type = (
-        <InputTime
-          id={exercise.id}
-          value={exercise.workoutTime ?? 0}
-          onChange={handleChangeExercise}
-          prop="workoutTime"
-        />
-      );
-    }
-
-    return (
-      <div className="flex justify-between gap-2 items-center">
-        {selectedStatus.label}: {type}
-      </div>
-    );
-  };
-  const renderBonusInput = () => {
-    let type;
-
-    if (selectedStatus === null) return;
-    if (selectedStatus.value === "null") return;
-    if (
-      selectedStatus.value === "distance" ||
-      selectedStatus.value === "weight"
-    ) {
-      type = (
-        <input
-          type="tel"
-          value={exercise.bonus.toAchieved ?? 0}
-          min={0}
-          className="h-10 w-16 px-1 flex items-center justify-center text-center border border-black/80 rounded-md text-lg"
-          onFocus={(e) => e.target.select()}
-          onChange={(e) => {
-            handleChangeBonusExercise(
-              exercise.id,
-              "toAchieved",
-              Number(e.target.value)
-            );
-            handleChangeBonusExercise(
-              exercise.id,
-              "exerciseProp",
-              selectedStatus.value as Exercise["bonus"]["exerciseProp"]
-            );
-          }}
-        />
-      );
-    }
-    if (selectedStatus.value === "workoutTime") {
-      type = (
-        <InputTime
-          id={exercise.id}
-          onChange={handleChangeBonusExercise}
-          value={exercise.bonus.toAchieved ?? 0}
-          prop="toAchieved"
-        />
-      );
-    }
-
-    return (
-      <div className="flex justify-between items-center w-full">
-        <p className="max-w-40">
-          Ajoute un bonus de{" "}
-          <span className="lowercase">{selectedStatus.label}</span>:
-        </p>
-        <div className="flex items-center text-2xl gap-2">+{type}</div>
-      </div>
-    );
-  };
 
   return (
     <AccordionItem value={exercise.id}>
@@ -404,24 +279,11 @@ const ExerciseContent = (exercise: Exercise) => {
             />
           </div>
         )}
-        <>
-          <ComboBoxResponsive
-            buttonText="Type d'exo"
-            selectedStatus={selectedStatus}
-            setSelectedStatus={
-              setSelectedStatus as Dispatch<
-                SetStateAction<{
-                  value: string;
-                  label: string;
-                } | null>
-              >
-            }
-            statuses={exosType}
-            label="Choisis le type d'exo"
-          />
-          {renderExoInput()}
-        </>
-        <>{renderBonusInput()}</>
+        <ComboBoxResponsive
+          buttonText="Type d'exo"
+          label="Choisis le type d'exo"
+          exo={exercise}
+        />
         <Button
           onClick={() => handleDeleteExercise(exercise.id)}
           variant={"destructive"}

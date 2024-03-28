@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function WorkoutLayout({
   children,
@@ -12,5 +13,9 @@ export default async function WorkoutLayout({
     redirect("/auth/login");
   }
 
-  return <main className="flex flex-1 flex-col">{children}</main>;
+  return (
+    <main className="flex flex-1 flex-col">
+      <Suspense fallback={<p>Chargement des workouts</p>}>{children}</Suspense>
+    </main>
+  );
 }

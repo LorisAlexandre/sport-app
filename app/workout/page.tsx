@@ -1,9 +1,9 @@
 import { WorkoutCard } from "@/components/cards";
-import { Button, ToastError } from "@/components/ui";
+import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
-import { CustomResponse } from "@/lib/types/apiRes";
-import { Workout } from "@/lib/db";
-import { Plus } from "lucide-react";
+import { prisma } from "@/lib/db";
+
+export const revalidate = 30;
 
 export default async function Page() {
   const session = await auth();
@@ -18,45 +18,29 @@ export default async function Page() {
     );
   }
 
-  const res = await fetch(`${process.env.SERV_URL}/api/workouts/getByUser`, {
-    headers: {
-      userId: session?.user.id,
-    } as RequestInit["headers"],
-    cache: "no-cache",
+  const workouts = await prisma.workout.findMany({
+    where: {
+      users: {
+        has: session.user.id,
+      },
+    },
+    include: {
+      series: {
+        include: { exercises: { orderBy: { rank: "asc" } } },
+        orderBy: { rank: "asc" },
+      },
+    },
   });
 
-  try {
-    const { result, data, message, redirectTo } =
-      (await res.json()) as CustomResponse<Workout[]>;
-
-    if (!result || !data) {
-      return (
-        <ToastError
-          message={message ?? res.statusText}
-          statusCode={res.status}
-          redirectTo={redirectTo}
-        />
-      );
-    }
-
-    return (
-      <div className="flex flex-col gap-6 mb-28">
-        {!!data.length ? (
-          data.map((w) => <WorkoutCard session={session} {...w} key={w.id} />)
-        ) : (
-          <span className="text-center">
-            Oups il n&apos;y a aucune séance ! Crées en une !
-          </span>
-        )}
-      </div>
-    );
-  } catch (error) {
-    return (
-      <ToastError
-        message={`Error with the server. ${String(error)}`}
-        statusCode={res.status}
-        redirectTo="/"
-      />
-    );
-  }
+  return (
+    <div className="flex flex-col gap-6 mb-28">
+      {!!workouts.length ? (
+        workouts.map((w) => <WorkoutCard session={session} {...w} key={w.id} />)
+      ) : (
+        <span className="text-center">
+          Oups il n&apos;y a aucune séance ! Crées en une !
+        </span>
+      )}
+    </div>
+  );
 }

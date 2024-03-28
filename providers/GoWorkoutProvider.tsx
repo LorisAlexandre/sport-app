@@ -35,6 +35,8 @@ export interface GoWorkoutContextType {
   analyticId: Analytic["id"] | undefined;
   suggestBonus: boolean | undefined;
   setSuggestBonus: Dispatch<SetStateAction<boolean>> | undefined;
+  acknowlegde: boolean | undefined;
+  setAcknowledge: Dispatch<SetStateAction<boolean>> | undefined;
 }
 
 export const GoWorkoutContext = createContext<GoWorkoutContextType>({
@@ -57,6 +59,8 @@ export const GoWorkoutContext = createContext<GoWorkoutContextType>({
   analyticId: undefined,
   suggestBonus: undefined,
   setSuggestBonus: undefined,
+  acknowlegde: undefined,
+  setAcknowledge: undefined,
 });
 
 export const useGoWorkoutContext = () => {
@@ -80,6 +84,8 @@ export const useGoWorkoutContext = () => {
     analyticId,
     suggestBonus,
     setSuggestBonus,
+    acknowlegde,
+    setAcknowledge,
   } = useContext(GoWorkoutContext);
   const { handleRedirect, setMessage, setStatusCode } = useErrorProvider();
   const router = useRouter();
@@ -141,6 +147,12 @@ export const useGoWorkoutContext = () => {
   if (setSuggestBonus === undefined) {
     throw new Error("setSuggestBonus is not defined");
   }
+  if (acknowlegde === undefined) {
+    throw new Error("acknowlegde is not defined");
+  }
+  if (setAcknowledge === undefined) {
+    throw new Error("setAcknowledge is not defined");
+  }
 
   const handleGoNext = () => {
     const exoDone = cleanWorkout.series
@@ -178,7 +190,12 @@ export const useGoWorkoutContext = () => {
       if (!!navigator.vibrate) {
         navigator.vibrate(1000);
       } else {
-        alert("Désolé votre navigateur ne prend pas en compte les vibrations");
+        if (!acknowlegde) {
+          alert(
+            "Désolé votre navigateur ne prend pas en compte les vibrations"
+          );
+          setAcknowledge(true);
+        }
       }
     }
   };
@@ -353,6 +370,7 @@ export const GoWorkoutProvider = ({
   const [timer, setTimer] = useState(currAction.workoutTime ?? 0);
   const [workoutPause, setWorkoutPause] = useState(false);
   const [suggestBonus, setSuggestBonus] = useState(false);
+  const [acknowlegde, setAcknowledge] = useState(false);
 
   const contextValue: GoWorkoutContextType = {
     workout,
@@ -374,6 +392,8 @@ export const GoWorkoutProvider = ({
     analyticId,
     suggestBonus,
     setSuggestBonus,
+    acknowlegde,
+    setAcknowledge,
   };
 
   return (
