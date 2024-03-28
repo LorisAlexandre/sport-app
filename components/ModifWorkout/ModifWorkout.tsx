@@ -86,7 +86,7 @@ export const ModifWorkout = () => {
           <p>Nom de la séance:</p>
           <input
             type="text"
-            className="max-w-fit w-[200px] px-2 py-1 flex items-center justify-center text-center border border-black/80 rounded-md"
+            className="max-w-fit w-[80%] min-w-[15px] px-2 py-1 flex items-center justify-center text-center border border-black/80 rounded-md"
             value={workout.name}
             onFocus={(e) => e.target.select()}
             onChange={(e) =>
@@ -232,7 +232,7 @@ const ExerciseContent = (exercise: Exercise) => {
       type = (
         <input
           type="tel"
-          className="h-10 w-fit px-1 flex items-center justify-center text-center border border-black/80 rounded-md text-lg"
+          className="h-10 max-w-fit w-[80%] min-w-[150px] px-1 flex items-center justify-center text-center border border-black/80 rounded-md text-lg"
           value={exercise.distance ?? 0}
           min={0}
           onFocus={(e) => e.target.select()}
@@ -276,7 +276,7 @@ const ExerciseContent = (exercise: Exercise) => {
     }
 
     return (
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between gap-2 items-center">
         {selectedStatus.label}: {type}
       </div>
     );
@@ -363,7 +363,7 @@ const ExerciseContent = (exercise: Exercise) => {
         </AccordionTrigger>
       </div>
       <AccordionContent className="flex flex-col gap-3 px-6">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between gap-2 items-center">
           <p className="max-w-40">Nom de l&apos;exercice: </p>
           <input
             onFocus={(e) => e.target.select()}
@@ -372,7 +372,7 @@ const ExerciseContent = (exercise: Exercise) => {
               handleChangeExercise(exercise.id, "name", e.target.value)
             }
             type="text"
-            className="max-w-fit w-[200px] px-2 py-1 flex items-center justify-center text-center border border-black/80 rounded-md"
+            className="max-w-fit w-[80%] min-w-[150px] px-2 py-1 flex items-center justify-center text-center border border-black/80 rounded-md"
           />
         </div>
         <div className="flex justify-between items-center">

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useErrorProvider } from "@/providers/ErrorProvider";
 import { CustomResponse } from "@/lib/types/apiRes";
 import { Workout } from "@/lib/db";
-import { XCircle, UserRoundX } from "lucide-react";
+import { Save, UserRoundX } from "lucide-react";
 
 const AddUsers = ({
   usersInWorkout,
@@ -142,8 +142,13 @@ const AddUsers = ({
           )}
         </div>
       </div>
-      <Button className="mt-2" onClick={handleSaveUsers} variant={"default"}>
-        Save
+      <Button
+        className="mt-2 flex justify-center gap-2 items-center"
+        onClick={handleSaveUsers}
+        variant={"default"}
+      >
+        Sauvegarder
+        <Save />
       </Button>
     </div>
   );
