@@ -7,12 +7,20 @@ export const PATCH = async (
   req: NextRequest,
   {
     params: { analyticId },
-    searchParams: { date, workoutName },
   }: {
     params: { analyticId: string };
-    searchParams: { date: string; workoutName: string };
   }
 ) => {
+  const { searchParams } = new URL(req.url);
+  const date = searchParams.get("date");
+
+  if (!date) {
+    return NextResponse.json(
+      { result: false, message: "Bad request, date is not defined" },
+      { status: 400 }
+    );
+  }
+
   const userId = req.headers.get("userId");
   const body = (await req.json()) as WorkoutAnalytic;
 
@@ -29,14 +37,42 @@ export const PATCH = async (
     "analytic"
   );
 
-  if (!result) {
+  if (!result || !doc) {
     return NextResponse.json(
       { result, message: "Unauthorized" },
       { status: 401 }
     );
   }
 
-  // à finir
+  const currWorkout = doc.workoutAnalytic.find(
+    (w) => formatDate(w.createdAt, "-") === date
+  );
 
-  return NextResponse.json({ result: true, data: "updatedAnalytic" });
+  if (!currWorkout) {
+    return NextResponse.json(
+      {
+        result: false,
+        message: "Workout not found",
+      },
+      { status: 404 }
+    );
+  }
+
+  doc.workoutAnalytic = doc.workoutAnalytic.filter(
+    (w) => formatDate(w.createdAt, "-") !== date
+  );
+  currWorkout.notes = body.notes;
+
+  const updatedAnalytic = await prisma.analytic.update({
+    where: {
+      id: analyticId,
+    },
+    data: {
+      workoutAnalytic: {
+        set: [...doc.workoutAnalytic, currWorkout],
+      },
+    },
+  });
+
+  return NextResponse.json({ result: true, data: updatedAnalytic });
 };

@@ -60,7 +60,7 @@ export const ACompleteWorkout = ({
       `/api/analytic/updateNotes/${analyticId}?date=${formatDate(
         workout.createdAt,
         "-"
-      )}&workoutName=${workout.name}`,
+      )}`,
       {
         headers: {
           userId: session?.user.id,
