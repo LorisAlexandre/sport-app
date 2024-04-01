@@ -35,5 +35,5 @@ export const AffiliateLink = ({ session }: { session: Session | null }) => {
     return;
   }
 
-  return <div>{renderLink()}</div>;
+  return <div className="mx-auto min-w-[280px]">{renderLink()}</div>;
 };

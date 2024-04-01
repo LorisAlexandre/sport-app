@@ -10,7 +10,7 @@ export const Logo = async () => {
   return (
     <Link
       className="cursor-pointer text-3xl font-bold"
-      href={session?.user ? "/dashboard" : "/"}
+      href={session?.user ? "/account" : "/"}
     >
       <Image src={"/icon.png"} priority alt="logo app" width={64} height={64} />
     </Link>

@@ -10,7 +10,7 @@ import { formatDate } from "@/lib/functions";
 
 export const MyStreak = (streak: Streak) => {
   return (
-    <Card className="w-full sm:w-fit">
+    <Card className="w-full sm:w-fit lg:min-w-[450px] ">
       {!!streak.weekSchema.length ? (
         <>
           <CardHeader className="space-y-0">

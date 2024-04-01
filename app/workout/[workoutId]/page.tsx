@@ -5,7 +5,6 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { GoWorkoutProvider } from "@/providers/GoWorkoutProvider";
 import { WorkoutAnalytic } from "@prisma/client";
-import { Divide } from "lucide-react";
 
 export default async function Page({
   params: { workoutId },

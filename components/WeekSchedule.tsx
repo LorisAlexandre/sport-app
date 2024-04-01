@@ -75,9 +75,9 @@ const WeekSchedule = ({ weekSchema, userId, id: streakId }: Streak) => {
   return (
     <div className="flex-1 flex flex-col px-8 py-4 rounded-xl border justify-center">
       <div className="flex justify-between gap-2 items-center mb-4">
-        <h1 className="text-2xl uppercase">Mon planning hebdo</h1>
+        <h2 className="text-lg md:text-2xl uppercase">Mon planning hebdo</h2>
         <Button
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 text-sm"
           onClick={handleSaveWeekSchema}
           variant={"default"}
         >

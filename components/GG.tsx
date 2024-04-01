@@ -30,9 +30,12 @@ export const GG = () => {
         <p className="px-1 w-full text-center font-bold text-[#212121]">
           Parfait
         </p>
-        <div className="bg-gradient-to-br from-[#212121] via-[#3D3D3D] to-[#212121] h-14 rounded-3xl flex items-center justify-center gap-1">
-          <p className="text-[#F5AF00] font-bold">100%</p>
-          <Medal color="#F5AF00" size={32} />
+        <div className="p-1 bg-gradient-to-br from-[#212121] via-[#3D3D3D] to-[#212121] rounded-3xl flex flex-col items-center justify-center">
+          <div className="flex items-center justify-center gap-1">
+            <p className="text-[#F5AF00] font-bold">100%</p>
+            <Medal color="#F5AF00" size={32} />
+          </div>
+          <p className="text-[#E5E4E2] text-xs font-thin -mt-2">Exos</p>
         </div>
       </div>
     );
@@ -57,11 +60,14 @@ export const GG = () => {
     return (
       <div className="w-36 h-fit p-1 rounded-3xl bg-gradient-to-br from-[#E5E4E2] via-violet-400 to-[#E5E4E2]">
         <p className="px-1 w-full text-center font-bold text-[#212121]">
-          Parfait
+          Incroyable
         </p>
-        <div className="bg-gradient-to-br from-[#212121] via-[#3D3D3D] to-[#212121] h-14 rounded-3xl flex items-center justify-center gap-1">
-          <p className="text-[#E5E4E2] font-bold">100%</p>
-          <Medal color="#E5E4E2" size={32} />
+        <div className="p-1 bg-gradient-to-br from-[#212121] via-[#3D3D3D] to-[#212121] rounded-3xl flex flex-col items-center justify-center">
+          <div className="flex items-center justify-center gap-1">
+            <p className="text-[#E5E4E2] font-bold">100%</p>
+            <Medal color="#E5E4E2" size={32} />
+          </div>
+          <p className="text-[#E5E4E2] text-xs font-thin -mt-2">Bonus</p>
         </div>
       </div>
     );

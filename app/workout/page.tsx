@@ -3,7 +3,7 @@ import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 
-export const revalidate = 30;
+export const revalidate = 10;
 
 export default async function Page() {
   const session = await auth();
@@ -33,7 +33,7 @@ export default async function Page() {
   });
 
   return (
-    <div className="flex flex-col gap-6 mb-28">
+    <div className="flex flex-col gap-6 mb-28 md:flex-row">
       {!!workouts.length ? (
         workouts.map((w) => <WorkoutCard session={session} {...w} key={w.id} />)
       ) : (

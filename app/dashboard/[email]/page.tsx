@@ -83,11 +83,19 @@ export default async function Page({
           <h1 className="text-2xl font-semibold">{me.name}</h1>
         </div>
         <div className="flex flex-col gap-4 px-6">
-          {analytics?.workoutAnalytic
-            .filter((_, i) => i <= 3)
-            .map((w, i) => (
-              <AWorkoutCard {...w} key={i} />
-            ))}
+          {!!analytics?.workoutAnalytic.length ? (
+            analytics?.workoutAnalytic
+              .filter((_, i) => i <= 3)
+              .map((w, i) => <AWorkoutCard {...w} key={i} />)
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-1">
+              <p>Aucune séance n'a été réalisée !</p>
+              <p>Commence dès maintenant !</p>
+              <Button variant={"default"}>
+                <Link href={"/workout"}>Mes séances</Link>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     );

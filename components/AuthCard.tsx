@@ -13,13 +13,14 @@ import { signIn } from "next-auth/react";
 
 const AuthCard = () => {
   return (
-    <Card>
+    <Card className="lg:max-w-[400px] mx-auto">
       <CardHeader className="flex items-center">
-        <CardTitle>Hi ready to start 💪 ?</CardTitle>
-        <CardDescription>Only one click left, just do it !</CardDescription>
+        <CardTitle>Salut prêt à commencer 💪 ?</CardTitle>
+        <CardDescription>Plus qu'un clique et c'est bon !</CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">
         <Button
+          variant={"default"}
           className="flex gap-4"
           onClick={() => signIn("google", { callbackUrl: "/account" })}
         >
@@ -30,7 +31,7 @@ const AuthCard = () => {
             width={20}
             height={20}
           />
-          <span>Connect with Google</span>
+          <span>Connecte toi avec Google</span>
         </Button>
       </CardContent>
     </Card>

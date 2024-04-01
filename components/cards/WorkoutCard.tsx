@@ -54,7 +54,7 @@ export const WorkoutCard = (workout: Workout & { session: Session | null }) => {
   };
 
   return (
-    <Card className="gap-4 border-black border-2">
+    <Card className="gap-4 border-black border-2 md:max-w-[300px] w-full">
       <CardHeader className="flex-col items-start justify-between">
         <CardTitle className="uppercase font-bold">{workout.name}</CardTitle>
         <CardDescription className="flex gap-2 text-black/90">
