@@ -89,7 +89,7 @@ export default async function Page({
               .map((w, i) => <AWorkoutCard {...w} key={i} />)
           ) : (
             <div className="flex flex-col items-center justify-center gap-1">
-              <p>Aucune séance n'a été réalisée !</p>
+              <p>Aucune séance n&pos;a été réalisée !</p>
               <p>Commence dès maintenant !</p>
               <Button variant={"default"}>
                 <Link href={"/workout"}>Mes séances</Link>

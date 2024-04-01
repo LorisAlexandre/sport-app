@@ -16,7 +16,9 @@ const AuthCard = () => {
     <Card className="lg:max-w-[400px] mx-auto">
       <CardHeader className="flex items-center">
         <CardTitle>Salut prêt à commencer 💪 ?</CardTitle>
-        <CardDescription>Plus qu'un clique et c'est bon !</CardDescription>
+        <CardDescription>
+          Plus qu&pos;un clique et c&pos;est bon !
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">
         <Button
