@@ -2,6 +2,7 @@ import { WorkoutCard } from "@/components/cards";
 import { ToastError } from "@/components/ui";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { sleep } from "@/lib/functions";
 
 export const revalidate = 10;
 
@@ -17,6 +18,8 @@ export default async function Page() {
       />
     );
   }
+
+  sleep(3000);
 
   const workouts = await prisma.workout.findMany({
     where: {
