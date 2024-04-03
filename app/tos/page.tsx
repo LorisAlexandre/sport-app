@@ -177,7 +177,9 @@ export default function TOS() {
             </ul>
           </p>
         </div>
-        <p className="px-10">Date d'entrée en vigueur : le 3 avril 2024.</p>
+        <p className="px-10">
+          Date d&apos;entrée en vigueur : le 3 avril 2024.
+        </p>
       </div>
     </div>
   );
