@@ -40,7 +40,7 @@ export const MyGuestAnalytics = async () => {
         <AccordionContent className="flex flex-wrap gap-2">
           {myGuests.length > 1 ? (
             myGuests
-              // .filter((u) => u.name !== session.user.name)
+              .filter((u) => u.name !== session.user.email)
               .map((u, i) => (
                 <Button key={i} className="h-fit border">
                   <Link

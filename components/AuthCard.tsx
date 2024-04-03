@@ -17,7 +17,7 @@ const AuthCard = () => {
       <CardHeader className="flex items-center">
         <CardTitle>Salut prêt à commencer 💪 ?</CardTitle>
         <CardDescription>
-          Plus qu&pos;un clique et c&pos;est bon !
+          Plus qu&apos;un clique et c&apos;est bon !
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">

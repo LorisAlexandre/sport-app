@@ -12,7 +12,7 @@ import {
   TopNavbar,
 } from "@/components/ui";
 import { ErrorProvider } from "@/providers/ErrorProvider";
-import Pricing from "@/components/Pricing";
+import { Pricing } from "@/components/HomePage";
 
 const fontTitle = Oswald({
   subsets: ["latin"],
@@ -26,8 +26,9 @@ const fontBody = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Coaché avec aisance",
-  description: "Sois le coach de tes rêves",
+  title: "Propulze your workout to next level",
+  description:
+    "Turn your coachees into champions, from anywhere with Propulze.",
 };
 
 export default async function RootLayout({
@@ -38,7 +39,7 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth scroll-p-10">
       <SessionProvider session={session}>
         <body
           className={cn(

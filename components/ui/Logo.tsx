@@ -9,10 +9,14 @@ export const Logo = async () => {
 
   return (
     <Link
-      className="cursor-pointer text-3xl font-bold"
+      className="font-bold flex items-center gap-1 z-50"
       href={session?.user ? "/account" : "/"}
     >
-      <Image src={"/icon.png"} priority alt="logo app" width={64} height={64} />
+      <Image src={"/icon.png"} priority alt="logo app" width={36} height={36} />
+      <div className="font-oswald uppercase flex flex-col gap-0 text-lg">
+        <p className="-my-2">Pro</p>
+        <p className="-my-1">pluze</p>
+      </div>
     </Link>
   );
 };

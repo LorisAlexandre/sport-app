@@ -6,7 +6,13 @@ import { stripe } from "@/lib/stripe";
 import { Session } from "next-auth";
 import { useErrorProvider } from "@/providers/ErrorProvider";
 
-export const BuyButton = ({ session }: { session: Session | null }) => {
+export const BuyButton = ({
+  session,
+  text,
+}: {
+  session: Session | null;
+  text: string;
+}) => {
   const router = useRouter();
   const { setMessage, handleRedirect } = useErrorProvider();
 
@@ -52,8 +58,12 @@ export const BuyButton = ({ session }: { session: Session | null }) => {
   };
 
   return (
-    <Button variant={"default"} onClick={handleCheckoutSession}>
-      Get SPORT-APP
+    <Button
+      className="bg-[#F5AF00] hover:bg-[#F5AF00]/80 uppercase text-xl text-black font-bold font-oswald shadow-[0_0px_100px_0px_rgba(245,175,0,0.225)]"
+      variant={"default"}
+      onClick={handleCheckoutSession}
+    >
+      {text}
     </Button>
   );
 };
