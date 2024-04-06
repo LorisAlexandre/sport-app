@@ -48,6 +48,7 @@ export const Proof = async () => {
       </div>
     );
   } catch (error) {
+    console.log(error);
     return <ToastError message={String(error)} statusCode={500} />;
   }
 };

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <div className="flex pt-20 pb-32 -mx-5 px-10 min-w-[100%] flex-col sm:flex-row gap-4 border-t">
+    <div className="flex pt-20 pb-32 -mx-5 px-10 min-w-[100%] flex-col sm:flex-row gap-4 md:gap-10 border-t justify-center items-start">
       <div>
         <h3 className="uppercase text-lg text-black/90">Liens</h3>
         <ul className="text-sm flex flex-col gap-1">
