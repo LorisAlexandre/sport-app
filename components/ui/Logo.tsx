@@ -9,7 +9,7 @@ export const Logo = async () => {
 
   return (
     <Link
-      className="font-bold flex items-center gap-1 z-50"
+      className="font-bold flex items-center gap-1 z-50 w-fit"
       href={session?.user ? "/account" : "/"}
     >
       <Image src={"/icon.png"} priority alt="logo app" width={36} height={36} />

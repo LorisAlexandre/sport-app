@@ -1,9 +1,6 @@
 import {
   Herobanner,
   Customers,
-  ProductHunt,
-  Reddit,
-  Twitter,
   WhyBuy,
   WhoAMI,
   Demo,
@@ -28,13 +25,15 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-20">
-      <nav className="absolute top-12 right-5">
-        <Link
-          href={"/auth/login"}
-          className="font-oswald font-bold uppercase text-lg"
-        >
-          Se connecter
-        </Link>
+      <nav className="absolute right-5 top-10 z-50">
+        <Button>
+          <Link
+            href={"/auth/login"}
+            className="font-oswald font-bold uppercase text-lg"
+          >
+            Se connecter
+          </Link>
+        </Button>
       </nav>
       <Herobanner />
       <Customers />

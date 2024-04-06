@@ -50,15 +50,15 @@ export const TopNavbar = ({ session }: { session: Session | null }) => {
     let baseline;
     switch (url) {
       case "/workout": {
-        baseline = "Ready to train ?";
+        baseline = "Prêt à passer à l'action ?";
         break;
       }
       case "/dashboard": {
-        baseline = "Contemplate your progress !";
+        baseline = "Contemple ta progression !";
         break;
       }
       case "/account": {
-        baseline = "Change your life and your settings";
+        baseline = "Change tes paramètres ici.";
         break;
       }
       default: {
