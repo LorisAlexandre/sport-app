@@ -15,5 +15,11 @@ declare namespace NodeJS {
     STRIPE_SECRET_KEY: string;
 
     SERV_URL: string;
+
+    CRON_SECRET: string;
+
+    CLOUD_NAME: string;
+    API_KEY_CLOUD: string;
+    API_SECRET_CLOUD: string;
   }
 }
