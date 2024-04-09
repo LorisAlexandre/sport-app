@@ -19,7 +19,7 @@ export const BottomPage = async () => {
         Ne perds plus ton temps en te dispersant, propulse tes coachings au
         niveau supérieur
       </p>
-      <BuyButton session={session} text="coach des champions 🥇" />
+      <BuyButton session={session} text="go 🥇" />
     </div>
   );
 };

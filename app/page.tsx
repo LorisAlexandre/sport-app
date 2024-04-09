@@ -37,13 +37,13 @@ export default async function Home() {
       </nav>
       <Herobanner />
       <Customers />
-      <Proof />
+      {/* <Demo /> */}
+      {/* <Proof /> */}
       <FeaturedOn />
       <WhyBuy />
-      <WhoAMI />
-      <Demo />
       <Pricing session={session} />
-      <Testimonials />
+      {/* <Testimonials /> */}
+      <WhoAMI />
       <BottomPage />
       <Footer />
     </div>

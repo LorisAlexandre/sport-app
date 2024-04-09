@@ -13,10 +13,7 @@ export const Logo = async () => {
       href={session?.user ? "/account" : "/"}
     >
       <Image src={"/icon.png"} priority alt="logo app" width={36} height={36} />
-      <div className="font-oswald uppercase flex flex-col gap-0 text-lg">
-        <p className="-my-2">Pro</p>
-        <p className="-my-1">pluze</p>
-      </div>
+      <p className="font-bold uppercase font-oswald text-xl">Propulze</p>
     </Link>
   );
 };

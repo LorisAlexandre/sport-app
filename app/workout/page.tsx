@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { sleep } from "@/lib/functions";
 
-export const revalidate = 10;
+export const revalidate = 5;
 
 export default async function Page() {
   const session = await auth();

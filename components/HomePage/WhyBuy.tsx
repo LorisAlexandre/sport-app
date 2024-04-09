@@ -7,7 +7,7 @@ export const WhyBuy = () => {
       </p>
       <p className="text-center">
         Propulze va te permettre de te concentrer sur ce qui compte vraiment:
-        aider tes jeunes talents à atteindre leurs objectifs sportifs.
+        aider tes adeptes à atteindre leurs objectifs sportifs.
       </p>
       <h3 className="text-center text-2xl font-bold font-work">
         Entraîner tes clients n&apos;a jamais été aussi simple,{" "}

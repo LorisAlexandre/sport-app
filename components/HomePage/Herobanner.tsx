@@ -12,10 +12,10 @@ export const Herobanner = async () => {
         Tous tes coachings au même endroit !
       </h2>
       <p className="text-center font-medium">
-        L’app de coaching avec tous tes besoins pour tes sportifs, suivi des
-        performances, gestion des séances. Fais de tes athlètes des champions !
+        L’app de coaching avec tous tes besoins. Suivi des performances, gestion
+        des séances... Fais de tes athlètes des champions !
       </p>
-      <BuyButton session={session} text="coach comme un champion 🚀" />
+      <BuyButton session={session} text="propulse tes coachings 🚀🌑" />
     </div>
   );
 };

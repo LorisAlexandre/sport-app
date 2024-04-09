@@ -8,7 +8,18 @@ import {
 } from "./ui/card";
 import { formatDate } from "@/lib/functions";
 
-export const MyStreak = (streak: Streak) => {
+export const MyStreak = (props: Streak) => {
+  const streak: Streak = {
+    id: "",
+    currentStreak: 5,
+    longuestStreak: 5,
+    todayCount: false,
+    lastDateCount: null,
+    nextDateCount: null,
+    weekSchema: [1, 3, 5],
+    userId: "",
+  };
+
   return (
     <Card className="w-full sm:w-fit lg:min-w-[450px] ">
       {!!streak.weekSchema.length ? (
@@ -20,7 +31,7 @@ export const MyStreak = (streak: Streak) => {
               {streak.longuestStreak < 0 && "🔥"}
             </CardDescription>
             <CardDescription className="text-xs">
-              Les séries sont mises à jour le soir vers
+              Les séries sont mises à jour le soir
             </CardDescription>
           </CardHeader>
           <div className="flex sm:flex-col items-center">

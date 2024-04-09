@@ -13,14 +13,14 @@ import { Check } from "lucide-react";
 export const Pricing = ({ session }: { session: Session | null }) => {
   return (
     <div id="pricing" className="flex flex-col items-center justify-center">
-      <h2 className="text-xl uppercase pb-2">
-        Tu es coach ? Gères tout tes coachings facilement !
+      <h2 className="text-xl uppercase pb-4">
+        Ça va révolutionner tes coachings !
       </h2>
       <Card className="max-w-[400px] bg-[#F0F0F0] border-none shadow-[0_0px_100px_0px_rgba(245,175,0,0.225)]">
         <CardHeader>
           <CardTitle className="uppercase text-2xl">Coach plan</CardTitle>
           <CardDescription className="uppercase">
-            Boost ton travail, entraîne, surpasse tes objectifs
+            Boost ton organisation, entraîne, surpasse tes objectifs
           </CardDescription>
           <h3 className="flex gap-1 items-center">
             <span className="text-sm line-through text-black/60 font-bold">
@@ -65,7 +65,7 @@ export const Pricing = ({ session }: { session: Session | null }) => {
           </ul>
         </CardContent>
         <CardFooter className="flex-col items-center">
-          <BuyButton session={session} text="Propulse tes coachings 🚀🌑" />
+          <BuyButton session={session} text="Passe au niveau supérieur 🚀" />
           <p className="underline text-sm text-black/80">
             paiement en une fois, disponible à vie
           </p>
