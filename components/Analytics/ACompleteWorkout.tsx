@@ -43,9 +43,6 @@ export const ACompleteWorkout = ({
   const exercises: ExerciseAnalytics[] = [];
   workout.series.map((s) =>
     s.exercises.map((e) => {
-      e.workoutTime = 90_000;
-      e.bonus.exerciseProp = "workoutTime";
-      e.bonus.toAchieved = 30_000;
       for (let j = 0; j < s.repetition; j++) {
         exercises.push(e);
       }

@@ -28,7 +28,7 @@ export const MyStreak = (props: Streak) => {
             <CardTitle>Ma série de jour</CardTitle>
             <CardDescription>
               Ma plus longue série: {streak.longuestStreak}{" "}
-              {streak.longuestStreak < 0 && "🔥"}
+              {streak.longuestStreak > 0 && "🔥"}
             </CardDescription>
             <CardDescription className="text-xs">
               Les séries sont mises à jour le soir
@@ -37,7 +37,7 @@ export const MyStreak = (props: Streak) => {
           <div className="flex sm:flex-col items-center">
             <CardContent className="min-w-fit">
               <p className="text-2xl font-medium">
-                {streak.currentStreak < 0
+                {streak.currentStreak > 0
                   ? `🔥 ${streak.currentStreak}`
                   : `🧯 ${streak.currentStreak}`}
               </p>

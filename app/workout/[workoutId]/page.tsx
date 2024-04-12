@@ -67,6 +67,7 @@ export default async function Page({
       />
     );
   }
+
   if (!analytic) {
     return (
       <ToastError
@@ -90,16 +91,16 @@ export default async function Page({
   const refactoWorkout: object[] = [];
 
   initWorkout.series.map((serie) => {
-    serie.exercises.map((exercise, i) => {
-      for (let j = 0; j < serie.repetition; j++) {
+    for (let j = 0; j < serie.repetition; j++) {
+      serie.exercises.map((exercise, i) => {
         refactoWorkout.push(exercise);
         if (serie.exercises.length - 1 <= i) {
           refactoWorkout.push({ isBreak: true, break: serie.break });
         } else {
           refactoWorkout.push({ isBreak: true, break: exercise.break });
         }
-      }
-    });
+      });
+    }
   });
 
   refactoWorkout.pop();

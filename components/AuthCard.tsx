@@ -13,17 +13,19 @@ import { signIn } from "next-auth/react";
 
 const AuthCard = () => {
   return (
-    <Card className="lg:max-w-[400px] mx-auto">
+    <Card className="lg:max-w-[400px] mx-auto border-none drop-shadow-[0_0px_16px_#F5AF00] bg-transparent shadow-none">
       <CardHeader className="flex items-center">
-        <CardTitle>Salut prêt à commencer 💪 ?</CardTitle>
+        <CardTitle className="uppercase text-3xl">
+          Salut prêt à commencer 💪 ?
+        </CardTitle>
         <CardDescription>
-          Plus qu&apos;un clique et c&apos;est bon !
+          Plus qu&apos;un clique et on passe à la vitesse supérieure !
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">
         <Button
           variant={"default"}
-          className="flex gap-4"
+          className="flex gap-4 uppercase text-base"
           onClick={() => signIn("google", { callbackUrl: "/account" })}
         >
           <Image

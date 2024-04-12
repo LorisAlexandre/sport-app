@@ -52,15 +52,12 @@ export function ComboBoxResponsive({
   React.useEffect(() => {
     if (selectedStatus?.value === "distance") {
       handleChangeBonusExercise(exo.id, "exerciseProp", "distance");
-      handleChangeBonusExercise(exo.id, "toAchieved", 0);
     }
     if (selectedStatus?.value === "weight") {
       handleChangeBonusExercise(exo.id, "exerciseProp", "weight");
-      handleChangeBonusExercise(exo.id, "toAchieved", 0);
     }
     if (selectedStatus?.value === "workoutTime") {
       handleChangeBonusExercise(exo.id, "exerciseProp", "workoutTime");
-      handleChangeBonusExercise(exo.id, "toAchieved", 0);
     }
   }, [selectedStatus]);
 

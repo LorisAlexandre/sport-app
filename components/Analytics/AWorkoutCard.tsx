@@ -23,9 +23,6 @@ export const AWorkoutCard = (workout: WorkoutAnalytic) => {
         <CardTitle className="uppercase font-bold">
           {workout.name} - {formatDate(workout.createdAt)}
         </CardTitle>
-        <Button className="aspect-square p-0">
-          <PenBox />
-        </Button>
       </CardHeader>
       <CardContent className="justify-center font-medium pb-4 truncate">
         Commentaire: {workout.notes ?? "Aucun commentaire"}
