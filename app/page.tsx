@@ -37,7 +37,7 @@ export default async function Home() {
       </nav>
       <Herobanner />
       <Customers />
-      {/* <Demo /> */}
+      <Demo />
       {/* <Proof /> */}
       <FeaturedOn />
       <WhyBuy />
