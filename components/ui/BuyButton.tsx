@@ -39,13 +39,13 @@ export const BuyButton = ({
       cancel_url: "https://sport-app-zeta.vercel.app/",
       line_items: [
         {
-          price: "price_1Op8kuBvdD53Amib1yD8qXBB",
+          price: process.env.STRIPE_PRODUCT_ID,
           quantity: 1,
         },
       ],
       discounts: [
         {
-          coupon: "XO6L2Inc",
+          coupon: process.env.STRIPE_PROMO_ID,
         },
       ],
     });

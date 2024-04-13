@@ -13,6 +13,8 @@ declare namespace NodeJS {
     SMTP_FROM: string;
 
     STRIPE_SECRET_KEY: string;
+    STRIPE_PRODUCT_ID: string;
+    STRIPE_PROMO_ID: string;
 
     SERV_URL: string;
 
