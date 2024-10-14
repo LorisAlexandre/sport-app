@@ -10,11 +10,3 @@
 - **Paywall** : Accès à l'application via un système de monétisation pour les entraîneurs et gratuit pour leurs clients (avec fonctionnalités réduites).
 - **Authentification via Google** : Connexion facile et rapide pour les utilisateurs grâce à l'intégration de Google OAuth.
 
-## 📦 Installation
-
-Clonez ce projet et installez les dépendances avec npm ou yarn :
-
-```bash
-git clone https://github.com/votre-username/propulze.git
-cd propulze
-npm install
